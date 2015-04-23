@@ -3,7 +3,7 @@ del /S *.obj
 del /S *.pdb
 del /S *.pch
 del /S *.exp
-del /S *.suo
+del /S /A:H *.suo
 del /S *.plg
 del /S *.dep
 del /S *.ilk
