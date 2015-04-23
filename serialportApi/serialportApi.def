@@ -1,0 +1,21 @@
+; serialportApi.def : 声明 DLL 的模块参数。
+
+LIBRARY
+
+EXPORTS
+    ; 此处可以是显式导出
+       ??0CSerialPort@@QAE@XZ                              @1                                                             
+       ??1CSerialPort@@UAE@XZ                              @2                                                                                                                                                     
+       ?ClosePort@CSerialPort@@QAEXXZ                      @3                                                                                                                              
+       ?GetCommEvents@CSerialPort@@QAEKXZ                  @4                                                 
+       ?GetDCB@CSerialPort@@QAE?AU_DCB@@XZ                 @5                                                 
+       ?GetWriteBufferSize@CSerialPort@@QAEKXZ             @6                                    
+       ?InitPort@CSerialPort@@QAEHPAVCWnd@@IIDIIKI@Z       @7                                                                                                                                 
+       ?RestartMonitoring@CSerialPort@@QAEHXZ              @8                                  
+       ?StartMonitoring@CSerialPort@@QAEHXZ                @9                                    
+       ?StopMonitoring@CSerialPort@@QAEHXZ                 @10                                                                                                                                         
+       ?WriteChar@CSerialPort@@KAXPAV1@@Z                  @11                                             
+       ?WriteToPort@CSerialPort@@QAEXPAD@Z                 @12                                          
+       ?WriteToPort@CSerialPort@@QAEXPADH@Z                @13                                  
+       ?WriteToPort@CSerialPort@@QAEXPBD@Z                 @14                                      
+       ?WriteToPort@CSerialPort@@QAEXPBDH@Z                @15                         
