@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "controlpanelprotocol.h"
+#include "poundscontrolprotocol.h"
 
 unsigned int crc_ta[256] =
 { //CRC-CCITT余式表
@@ -55,38 +55,40 @@ unsigned int GenerateCRC16(unsigned char *ptr, int len)
 	return(crc);
 }
 
-int opendoor(unsigned char * data, int lenth)
+int readstatus(unsigned char * data, int len)
 {
 	unsigned int  VerifyValue;
-	//FC2 = 0x40，DATA = 0x0e，显示：手工开闸（具有效卡功能）
+	// 读取仪表状态信息:寄存器起始地址=0x21,寄存器数量=1
 	data[0] = 0x01;
-	data[1] = 0x43;
-	data[2] = 0x40;
-	data[3] = 0x0e;
+	data[1] = 0x01;
+	data[2] = 0x00;
+	data[3] = 0x21;
+	data[4] = 0x00;
+	data[5] = 0x08;
 
-	VerifyValue = GenerateCRC16(data + 1, 3);
-	data[4] = (VerifyValue >> 8) & 0xff;
-	data[5] = VerifyValue & 0xff;
-	data[6] = 0x02;
+	VerifyValue = GenerateCRC16(data + 1, 5);
+	data[6] = (VerifyValue >> 8) & 0xff;
+	data[7] = VerifyValue & 0xff;
 
-	lenth = 7;
+	len = 8;
 	return 0;
 }
 
-int closedoor(unsigned char * data, int lenth)
+int readweight(unsigned char * data, int len)
 {
 	unsigned int  VerifyValue;
-	//FC2 = 0x41，DATA = 0x0e，显示：手工落闸
+	// 读取仪表显示重量值:寄存器起始地址=0x06,寄存器数量=4
 	data[0] = 0x01;
-	data[1] = 0x43;
-	data[2] = 0x41;
-	data[3] = 0x0e;
+	data[1] = 0x03;
+	data[2] = 0x00;
+	data[3] = 0x06;
+	data[4] = 0x00;
+	data[5] = 0x02;
 
-	VerifyValue = GenerateCRC16(data + 1, 3);
-	data[4] = (VerifyValue >> 8) & 0xff;
-	data[5] = VerifyValue & 0xff;
-	data[6] = 0x02;
+	VerifyValue = GenerateCRC16(data + 1, 5);
+	data[6] = (VerifyValue >> 8) & 0xff;
+	data[7] = VerifyValue & 0xff;
 
-	lenth = 7;
+	len = 8;
 	return 0;
 }
