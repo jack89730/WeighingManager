@@ -75,7 +75,7 @@ void CDrawAppearance::DrawDlg(CDC *pWinDC,COLORREF colorValue)//±³¾°É«Ìî³ä
 
 	if(pWinDC->GetWindow()->GetStyle()&WS_THICKFRAME)
 	{
-		nborder = ::GetSystemMetrics(SM_CXBORDER) + ::GetSystemMetrics(SM_CXDLGFRAME) + /*::GetSystemMetrics(SM_CXFIXEDFRAME)*/ + ::GetSystemMetrics(SM_CXFRAME);
+		int nborder = ::GetSystemMetrics(SM_CXBORDER);
 	}
 
 	memDC.CreateCompatibleDC(NULL);
@@ -83,7 +83,7 @@ void CDrawAppearance::DrawDlg(CDC *pWinDC,COLORREF colorValue)//±³¾°É«Ìî³ä
 	//¼ÓÔØ×ó±ß½ç
 	bmp.CreateCompatibleBitmap(pWinDC,nborder,wndRC.Height()-nTitleHeight);
 	memDC.SelectObject(&bmp);
-	memDC.FillSolidRect(0, 0, nborder, wndRC.Height() - nTitleHeight, colorValue);
+	memDC.FillSolidRect(0,0,nborder,wndRC.Height()-nTitleHeight, colorValue);
 	pWinDC->BitBlt(0,nTitleHeight,nborder,wndRC.Height()-nTitleHeight,&memDC,0,0,SRCCOPY);
 	bmp.DeleteObject();
 
@@ -98,14 +98,15 @@ void CDrawAppearance::DrawDlg(CDC *pWinDC,COLORREF colorValue)//±³¾°É«Ìî³ä
 	bmp.CreateCompatibleBitmap(pWinDC,wndRC.Width()-2*nborder,nborder);
 	memDC.SelectObject(&bmp);
 	memDC.FillSolidRect(0,0,wndRC.Width()-2*nborder,nborder,colorValue);
-	pWinDC->BitBlt(nborder,wndRC.Height()-nborder,wndRC.Width()-nborder,wndRC.Height(),&memDC,0,0,SRCCOPY);
+	pWinDC->BitBlt(nborder,wndRC.Height()-nborder,wndRC.Width()-2*nborder,wndRC.Height(),&memDC,0,0,SRCCOPY);
 	bmp.DeleteObject();
 
+
 	////¼ÓÔØ±êÌâÀ¸
-	bmp.CreateCompatibleBitmap(pWinDC, wndRC.Width(), nTitleHeight+nborder+2);
+	bmp.CreateCompatibleBitmap(pWinDC,wndRC.Width()-2*nborder,nborder);
 	memDC.SelectObject(&bmp);
-	memDC.FillSolidRect(0, 0, wndRC.Width(), nTitleHeight + nborder+2, colorValue);
-	pWinDC->BitBlt(0, 0, wndRC.Width(), nTitleHeight + nborder+2, &memDC, 0, 0, SRCCOPY);
+	memDC.FillSolidRect(0,0,wndRC.Width(),nTitleHeight+nborder,colorValue);
+	pWinDC->BitBlt(0,0,wndRC.Width(),nTitleHeight+nborder,&memDC,0,0,SRCCOPY);
 
 	bmp.DeleteObject();
 	memDC.DeleteDC();
@@ -215,7 +216,7 @@ void CDrawAppearance::DrawTitleBar(CDC *pWinDC, COLORREF color)
 	rtTitle.bottom = rtTitle.top + GetSystemMetrics(SM_CYSIZE);
 
 	point.x = rtWnd.right  + GetSystemMetrics(SM_CXFRAME);
-	point.y = rtTitle.bottom + GetSystemMetrics(SM_CYFRAME);
+	point.y = 30;
 
 	memDC.CreateCompatibleDC(pWinDC);
 	bmp.CreateCompatibleBitmap(pWinDC,point.x,point.y);
