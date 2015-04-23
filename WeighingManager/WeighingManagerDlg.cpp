@@ -66,7 +66,6 @@ BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_NCPAINT()
 	ON_WM_CTLCOLOR()
-	//ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 
@@ -234,18 +233,12 @@ LRESULT CWeighingManagerDlg::DefWindowProc(UINT message, WPARAM wParam, LPARAM l
 		if (pWinDC)
 		{
 			m_drawApe.DrawDlg(pWinDC, m_BKColor);
-			m_drawApe.DrawTitleBar(pWinDC, m_BKColor);
-			m_drawApe.DrawIcon(pWinDC, IDI_ICON1, 2);
-			//m_drawApe.DrawDlg(pWinDC,IDB_BITMAP_BG,IDB_BITMAP_BG,IDB_BITMAP_BG,IDB_BITMAP_BG);
-
-			//DrawTitleBar(pWinDC);
-			//DrawDlg(m_BKColor);
-			//DrawDlg(IDB_BITMAP_BG,IDB_BITMAP_BG,IDB_BITMAP_BG,IDB_BITMAP_BG);
+			//m_drawApe.DrawTitleBar(pWinDC, m_BKColor);
+			m_drawApe.DrawIcon(pWinDC, IDR_MAINFRAME, 2);
 
 			TCHAR szWndTitle[MAX_PATH];
 			ZeroMemory(szWndTitle, sizeof(szWndTitle));
 			GetWindowText(szWndTitle, sizeof(TCHAR)*MAX_PATH);
-			//SendMessage(hWnd, WM_GETTEXT, (WPARAM)MAX_PATH, (LPARAM)szWndTitle); 
 			m_drawApe.SetTitleColor(RGB(0, 0, 0));
 			m_drawApe.DrawTitle(pWinDC, szWndTitle, 20);
 			//m_drawApe.DrawSystemBtn1(pWinDC, IDB_NORMAL);
@@ -261,160 +254,6 @@ void CWeighingManagerDlg::OnNcPaint()
 	// 不为绘图消息调用 CDialog::OnNcPaint()
 }
 
-//void CWeighingManagerDlg::DrawTitleBar(CDC *pDC)
-//{
-//	CDC memDC;
-//	CBitmap bmp;
-//	CRect rect, rtTitle;
-//	CPoint point;
-//	GetClientRect(&rect);
-//
-//	//获取标题栏大小
-//	rtTitle.left = GetSystemMetrics(SM_CXFRAME);
-//	rtTitle.top = GetSystemMetrics(SM_CYFRAME);
-//	rtTitle.right = rect.right - rect.left - GetSystemMetrics(SM_CXFRAME);
-//	rtTitle.bottom = rtTitle.top + GetSystemMetrics(SM_CYSIZE);
-//
-//	point.x = rect.right + GetSystemMetrics(SM_CXFRAME);
-//	point.y = 30;
-//
-//	memDC.CreateCompatibleDC(NULL);
-//	bmp.CreateCompatibleBitmap(pDC, point.x, point.y);
-//	CBitmap *pOldBit = memDC.SelectObject(&bmp);
-//
-//
-//	//背景颜色
-//	memDC.FillSolidRect(0, 0, point.x, point.y, m_BKColor);
-//
-//	////贴图
-//	/*CBitmap pic;
-//	pic.LoadBitmap(IDB_BITMAP_BG);
-//	ShowBitmap(&memDC,0,0, rtTitle.right, 30, pic);*/
-//
-//	pDC->BitBlt(0, 0, point.x, point.y, &memDC, 0, 0, SRCCOPY);
-//
-//	pOldBit->DeleteObject();
-//	memDC.DeleteDC();
-//	bmp.DeleteObject();
-//
-//}
-//
-//void CWeighingManagerDlg::DrawDlg(COLORREF colorValue)//背景色填充
-//{
-//	CDC memDC;
-//	CRect wndRC;
-//	CBitmap bmp;
-//	CDC* pDC = GetWindowDC();
-//
-//	GetWindowRect(wndRC);
-//	wndRC.OffsetRect(wndRC.Width(), wndRC.Height());
-//	int nTitleHeight = GetSystemMetrics(SM_CYCAPTION);
-//	int nborder = ::GetSystemMetrics(SM_CXFIXEDFRAME);
-//
-//	if (GetStyle()&WS_THICKFRAME)
-//	{
-//		int nborder = ::GetSystemMetrics(SM_CXBORDER);
-//	}
-//
-//	memDC.CreateCompatibleDC(NULL);
-//
-//
-//	//加载左边界
-//	bmp.CreateCompatibleBitmap(pDC, nborder, wndRC.Height() - nTitleHeight);
-//	memDC.SelectObject(&bmp);
-//	memDC.FillSolidRect(0, 0, nborder, wndRC.Height() - nTitleHeight, colorValue);
-//	pDC->BitBlt(0, nTitleHeight, nborder, wndRC.Height() - nTitleHeight, &memDC, 0, 0, SRCCOPY);
-//	bmp.DeleteObject();
-//
-//	//加载右边界
-//	bmp.CreateCompatibleBitmap(pDC, nborder, wndRC.Height() - nTitleHeight);
-//	memDC.SelectObject(&bmp);
-//	memDC.FillSolidRect(0, 0, nborder, wndRC.Height() - nTitleHeight, colorValue);
-//	pDC->BitBlt(wndRC.Width() - nborder, nTitleHeight, nborder, wndRC.Height() - nTitleHeight, &memDC, 0, 0, SRCCOPY);
-//	bmp.DeleteObject();
-//
-//
-//
-//	//加载底边
-//	bmp.CreateCompatibleBitmap(pDC, wndRC.Width() - 2 * nborder, nborder);
-//	memDC.SelectObject(&bmp);
-//	memDC.FillSolidRect(0, 0, wndRC.Width() - 2 * nborder, nborder, colorValue);
-//	pDC->BitBlt(nborder, wndRC.Height() - nborder, wndRC.Width() - 2 * nborder, wndRC.Height(), &memDC, 0, 0, SRCCOPY);
-//	bmp.DeleteObject();
-//
-//
-//	////加载标题栏
-//	bmp.CreateCompatibleBitmap(pDC, wndRC.Width() - 2 * nborder, nborder);
-//	memDC.SelectObject(&bmp);
-//	memDC.FillSolidRect(0, 0, wndRC.Width(), nTitleHeight + nborder, colorValue);
-//	pDC->BitBlt(0, 0, wndRC.Width(), nTitleHeight + nborder, &memDC, 0, 0, SRCCOPY);
-//
-//	bmp.DeleteObject();
-//	memDC.DeleteDC();
-//}
-//
-//void CWeighingManagerDlg::DrawDlg(UINT LeftBmp, UINT RightBmp, UINT ButtomBmp, UINT TitleBmp)
-//{
-//	CDC memDC;
-//	CRect wndRC;
-//	CBitmap bmp;
-//
-//	CDC* pDC = GetWindowDC();
-//	GetWindowRect(wndRC);
-//	wndRC.OffsetRect(wndRC.Width(), wndRC.Height());
-//	int nTitleHeight = GetSystemMetrics(SM_CYCAPTION);
-//	int nborder = ::GetSystemMetrics(SM_CXFIXEDFRAME);
-//	if (GetStyle()&WS_THICKFRAME)
-//	{
-//		int nborder = ::GetSystemMetrics(SM_CXBORDER);
-//	}
-//
-//	//加载左边界位图
-//	bmp.LoadBitmap(LeftBmp);
-//	BITMAP so_bmp;
-//	bmp.GetBitmap(&so_bmp);
-//	int nBmpWidth, nbmpHeight;
-//	nBmpWidth = so_bmp.bmWidth;
-//	nbmpHeight = so_bmp.bmHeight;
-//
-//	memDC.CreateCompatibleDC(pDC);
-//	memDC.SelectObject(&bmp);
-//	pDC->StretchBlt(0, nTitleHeight, nborder, wndRC.Height() - nTitleHeight, &memDC, 0, 0, nBmpWidth, nbmpHeight, SRCCOPY);
-//	bmp.DeleteObject();
-//
-//	//加载右边界位图
-//	bmp.LoadBitmap(RightBmp);
-//	bmp.GetBitmap(&so_bmp);
-//	nBmpWidth = so_bmp.bmWidth;
-//	nbmpHeight = so_bmp.bmHeight;
-//
-//	memDC.SelectObject(&bmp);
-//	pDC->StretchBlt(wndRC.Width() - nborder, nTitleHeight, nborder, wndRC.Height() - nTitleHeight, &memDC, 0, 0, nBmpWidth, nbmpHeight, SRCCOPY);
-//	bmp.DeleteObject();
-//
-//	//加载底边位图
-//	bmp.LoadBitmap(ButtomBmp);
-//	bmp.GetBitmap(&so_bmp);
-//	nBmpWidth = so_bmp.bmWidth;
-//	nbmpHeight = so_bmp.bmHeight;
-//
-//	memDC.SelectObject(&bmp);
-//	pDC->StretchBlt(nborder, wndRC.Height() - nborder, wndRC.Width() - 2 * nborder, nborder, &memDC, 0, 0, nBmpWidth, nbmpHeight, SRCCOPY);
-//	bmp.DeleteObject();
-//
-//
-//	//加载标题栏位图
-//	bmp.LoadBitmap(TitleBmp);
-//	bmp.GetBitmap(&so_bmp);
-//	nBmpWidth = so_bmp.bmWidth;
-//	nbmpHeight = so_bmp.bmHeight;
-//
-//	memDC.SelectObject(&bmp);
-//	pDC->StretchBlt(0, 0, wndRC.Width(), nTitleHeight + nborder, &memDC, 0, 0, nBmpWidth, nbmpHeight, SRCCOPY);
-//	bmp.DeleteObject();
-//
-//	memDC.DeleteDC();
-//}
 
 HBRUSH CWeighingManagerDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
@@ -427,9 +266,4 @@ HBRUSH CWeighingManagerDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	
 	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
 	return hbr;
-}
-
-BOOL CWeighingManagerDlg::OnEraseBkgnd(CDC* pDC)
-{
-	return CDialog::OnEraseBkgnd(pDC);
 }
