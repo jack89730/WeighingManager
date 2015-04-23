@@ -13,6 +13,6 @@ del /S *.ipch
 del /S *.exe
 del /S *.tlog
 del /S *.log
-rd  /s/q debug
-rd  /s/q ipch
+rd  /s /q debug
+rd  /s /q ipch
 del /S *.lastbuildstate

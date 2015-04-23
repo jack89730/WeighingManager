@@ -75,5 +75,17 @@ int opendoor(unsigned char * data, int lenth)
 
 int closedoor(unsigned char * data, int lenth)
 {
+	//FC2 = 0x41£¬DATA = 0x0e£¬ÏÔÊ¾£ºÊÖ¹¤ÂäÕ¢
+	data[0] = 0x01;
+	data[1] = 0x43;
+	data[2] = 0x41;
+	data[3] = 0x0e;
+
+	VerifyValue = GenerateCRC16(data + 1, 3);
+	data[4] = (VerifyValue >> 8) & 0xff;
+	data[5] = VerifyValue & 0xff;
+	data[6] = 0x02;
+
+	lenth = 7;
 	return 0;
 }
