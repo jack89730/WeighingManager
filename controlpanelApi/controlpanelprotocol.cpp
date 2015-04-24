@@ -37,7 +37,6 @@ unsigned int crc_ta[256] =
 	0x6E17, 0x7E36, 0x4E55, 0x5E74, 0x2E93, 0x3EB2, 0x0ED1, 0x1EF0
 };
 
-
 //校验码
 unsigned int GenerateCRC16(unsigned char *ptr, int len)
 {
@@ -57,14 +56,13 @@ unsigned int GenerateCRC16(unsigned char *ptr, int len)
 
 int opendoor(unsigned char * data, int lenth)
 {
-	unsigned int  VerifyValue;
 	//FC2 = 0x40，DATA = 0x0e，显示：手工开闸（具有效卡功能）
 	data[0] = 0x01;
 	data[1] = 0x43;
 	data[2] = 0x40;
 	data[3] = 0x0e;
 
-	VerifyValue = GenerateCRC16(data + 1, 3);
+	unsigned int VerifyValue = GenerateCRC16(data + 1, 3);
 	data[4] = (VerifyValue >> 8) & 0xff;
 	data[5] = VerifyValue & 0xff;
 	data[6] = 0x02;
@@ -75,18 +73,79 @@ int opendoor(unsigned char * data, int lenth)
 
 int closedoor(unsigned char * data, int lenth)
 {
-	unsigned int  VerifyValue;
 	//FC2 = 0x41，DATA = 0x0e，显示：手工落闸
 	data[0] = 0x01;
 	data[1] = 0x43;
 	data[2] = 0x41;
 	data[3] = 0x0e;
 
-	VerifyValue = GenerateCRC16(data + 1, 3);
+	unsigned int VerifyValue = GenerateCRC16(data + 1, 3);
 	data[4] = (VerifyValue >> 8) & 0xff;
 	data[5] = VerifyValue & 0xff;
 	data[6] = 0x02;
 
 	lenth = 7;
 	return 0;
+}
+
+enum PROTOCOL_TYPE
+{
+	HANDLE_RESPOND_OK = 0,
+	HANDLE_RESPOND_ERR,
+	CAR_ARRIVE,
+	CAR_LEAVE,
+	OPEN_DONE,
+	OPEN_NOT_DONE,
+	CLOSE_DONE,
+	CLOSE_NOT_DONE,
+	COMM_ELSE,
+	COMM_ERR
+};
+//握手命令：FC1=0x6C，FC2=0x30，DATA：为两个字节填，
+//0x30开头与接收指令的FC1为正确接收返回，
+//两个0x31为接收错误返回。
+//车到：FC1=0x63，FC2=0x30，DATA：0x0e
+//车走：FC1=0x64，FC2=0x30，DATA：0x0e
+int parseprotocol(unsigned char * data, int lenth)
+{
+	if (lenth == 7)
+	{
+		unsigned int VerifyValue = GenerateCRC16(data + 1, 3);
+		if (data[0] != 0x03 ||
+			data[4] != (VerifyValue >> 8) & 0xff ||
+			data[5] != VerifyValue & 0xff ||
+			data[6] != 0x04)
+			return COMM_ERR;
+	}
+	else if (lenth == 8)
+	{
+		unsigned int VerifyValue = GenerateCRC16(data + 1, 4);
+		if (data[0] != 0x03 ||
+			data[5] != (VerifyValue >> 8) & 0xff ||
+			data[6] != VerifyValue & 0xff ||
+			data[7] != 0x04)
+			return COMM_ERR;
+	}
+	else
+	{
+		return COMM_ERR;
+	}
+
+	switch (data[1])
+	{
+	case 0x6C:
+		if (data[2] == 0x30 && data[3] == 0x30 && data[4] == 0x6C && lenth == 8) return HANDLE_RESPOND_OK;
+		if (data[2] == 0x30 && data[3] == 0x31 && data[4] == 0x31 && lenth == 8) return HANDLE_RESPOND_ERR;
+		break;
+	case 0x63:
+		if (data[2] == 0x30 && data[3] == 0x0e && lenth == 7) return CAR_ARRIVE;
+		break;
+	case 0x64:
+		if (data[2] == 0x30 && data[3] == 0x0e && lenth == 7) return CAR_LEAVE;
+		break;
+	default:
+		return COMM_ELSE;
+		break;
+	}
+	return COMM_ERR;
 }
