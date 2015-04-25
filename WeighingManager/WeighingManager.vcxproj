@@ -104,23 +104,31 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConfigFile.h" />
+    <ClInclude Include="ControlPanel.h" />
     <ClInclude Include="CToolBarEx.h" />
     <ClInclude Include="DrawAppearance.h" />
     <ClInclude Include="LoginDlg.h" />
+    <ClInclude Include="LprControl.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SysParametrSet.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WeighingManager.h" />
     <ClInclude Include="WeighingManagerDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigFile.cpp" />
+    <ClCompile Include="ControlPanel.cpp" />
     <ClCompile Include="CToolBarEx.cpp" />
     <ClCompile Include="DrawAppearance.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
+    <ClCompile Include="LprControl.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SysParametrSet.cpp" />
     <ClCompile Include="WeighingManager.cpp" />
     <ClCompile Include="WeighingManagerDlg.cpp" />
   </ItemGroup>

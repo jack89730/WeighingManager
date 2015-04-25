@@ -5,6 +5,7 @@
 #pragma once
 #include "CToolBarEx.h"
 #include "DrawAppearance.h"
+#include "SysParametrSet.h"
 
 // CWeighingManagerDlg 对话框
 class CWeighingManagerDlg : public CDialogEx
@@ -19,13 +20,8 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 	afx_msg LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	afx_msg void OnNcPaint();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	//afx_msg void DrawTitleBar(CDC *pDC);
-	//afx_msg void DrawDlg(COLORREF);
-	//afx_msg void DrawDlg(UINT LeftBmp, UINT RightBmp, UINT ButtomBmp, UINT TitleBmp);
-
+	afx_msg void OnNcPaint();
 
 // 实现
 protected:
@@ -47,4 +43,6 @@ private:
 	CDrawAppearance m_drawApe;
 	COLORREF        m_BKColor;
 	CBrush          m_BKBrush;
+public:
+	void OnToolbarSet();
 };

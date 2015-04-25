@@ -66,6 +66,7 @@ BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_NCPAINT()
 	ON_WM_CTLCOLOR()
+	ON_COMMAND(IDC_TOOLBAR_BUTTON4, OnToolbarSet)
 END_MESSAGE_MAP()
 
 
@@ -266,4 +267,10 @@ HBRUSH CWeighingManagerDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	
 	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
 	return hbr;
+}
+
+void CWeighingManagerDlg::OnToolbarSet()
+{
+	CSysParametrSet dlg;
+	dlg.DoModal();
 }

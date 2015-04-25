@@ -20,4 +20,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedOk();
+	CString m_userName;
+	CString m_userPwd;
 };
