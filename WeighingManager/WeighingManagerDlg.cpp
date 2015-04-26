@@ -197,7 +197,6 @@ BOOL CWeighingManagerDlg::InitToolBar()
 	m_ToolBar.GetToolBarCtrl().SetButtonWidth(60, 200);//设置按钮的宽度
 	m_ToolBar.SetSizes(CSize(68, 68), CSize(48, 48));//设置按钮大小
 	m_ToolBar.EnableToolTips(TRUE);//激活提示信息
-
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_INDETERMINATE);
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_ENABLED);
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_HIDDEN);
@@ -264,6 +263,7 @@ HBRUSH CWeighingManagerDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	{
 		return (HBRUSH)m_BKBrush.GetSafeHandle();
 	}
+
 	
 	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
 	return hbr;
