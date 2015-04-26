@@ -13,7 +13,13 @@ del /S *.ipch
 del /S *.exe
 del /S *.tlog
 del /S *.log
-rd  /s/q debug
-rd  /s/q ipch
 del /S *.lastbuildstate
 del /S *.user
+rd  /s/q ipch
+rd  /s/q debug
+rd  /s/q .\controlpanelApi\debug
+rd  /s/q .\ledcontrlolApi\debug
+rd  /s/q .\poundscontrolApi\debug
+rd  /s/q .\rs232comm\debug
+rd  /s/q .\serialportApi\debug
+rd  /s/q .\WeighingManager\debug
