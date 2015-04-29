@@ -5,6 +5,7 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WeighingManager", "WeighingManager\WeighingManager.vcxproj", "{7159C809-7F2B-4504-8EF9-B0E133F8FDF9}"
 	ProjectSection(ProjectDependencies) = postProject
+		{6614FB10-69F9-4E6B-B796-E50330149BF4} = {6614FB10-69F9-4E6B-B796-E50330149BF4}
 		{9F0AA1DC-50E2-4994-95EE-7078224E9CC0} = {9F0AA1DC-50E2-4994-95EE-7078224E9CC0}
 	EndProjectSection
 EndProject
