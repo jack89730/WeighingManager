@@ -54,12 +54,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../serialportApi;..\VzLPRClientSDK\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../serialportApi;..\VzLPRClientSDK\inc;../AdoApi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>serialportApi.lib;VzLPRSDK.lib</AdditionalDependencies>
+      <AdditionalDependencies>serialportApi.lib;VzLPRSDK.lib;AdoApi.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../DEBUG;..\VzLPRClientSDK\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>

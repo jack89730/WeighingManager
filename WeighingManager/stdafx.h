@@ -35,6 +35,7 @@
 
 #include "SerialPort.h"
 #include "VzLPRClientSDK.h"
+#include "ADOInterface.h"
 #define WM_USER_MSG	(WM_USER+200)
 
 
