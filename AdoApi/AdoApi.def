@@ -1,0 +1,8 @@
+LIBRARY	"AdoApi"
+
+EXPORTS
+ InitDB
+ QuerySQL
+ ExecuteSQL
+ ExecuteProcSQL
+ VarientToString

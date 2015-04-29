@@ -18,6 +18,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rs232commApi", "rs232comm\r
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serialportApi", "serialportApi\serialportApi.vcxproj", "{9F0AA1DC-50E2-4994-95EE-7078224E9CC0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdoApi", "AdoApi\AdoApi.vcxproj", "{6614FB10-69F9-4E6B-B796-E50330149BF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -48,6 +50,10 @@ Global
 		{9F0AA1DC-50E2-4994-95EE-7078224E9CC0}.Debug|Win32.Build.0 = Debug|Win32
 		{9F0AA1DC-50E2-4994-95EE-7078224E9CC0}.Release|Win32.ActiveCfg = Release|Win32
 		{9F0AA1DC-50E2-4994-95EE-7078224E9CC0}.Release|Win32.Build.0 = Release|Win32
+		{6614FB10-69F9-4E6B-B796-E50330149BF4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6614FB10-69F9-4E6B-B796-E50330149BF4}.Debug|Win32.Build.0 = Debug|Win32
+		{6614FB10-69F9-4E6B-B796-E50330149BF4}.Release|Win32.ActiveCfg = Release|Win32
+		{6614FB10-69F9-4E6B-B796-E50330149BF4}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

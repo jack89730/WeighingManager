@@ -66,6 +66,7 @@ BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_NCPAINT()
 	ON_WM_CTLCOLOR()
+	ON_WM_ERASEBKGND()
 	ON_COMMAND(IDC_TOOLBAR_BUTTON4, OnToolbarSet)
 END_MESSAGE_MAP()
 
@@ -161,13 +162,13 @@ HCURSOR CWeighingManagerDlg::OnQueryDragIcon()
 
 void CWeighingManagerDlg::InitImageList()
 {
-	m_ImageListToolbar.Create(48, 48, ILC_COLOR24 | ILC_MASK, 1, 1);
+	m_ImageListToolbar.Create(48, 48, ILC_COLOR24|ILC_MASK, 1, 1);
 	m_ImageListToolbar.Add(AfxGetApp()->LoadIcon(IDI_ICON1));
 	m_ImageListToolbar.Add(AfxGetApp()->LoadIcon(IDI_ICON3));
 	m_ImageListToolbar.Add(AfxGetApp()->LoadIcon(IDI_ICON5));
 	m_ImageListToolbar.Add(AfxGetApp()->LoadIcon(IDI_ICON7));
 
-	m_ImageListHotToolbar.Create(48, 48, ILC_COLOR24 | ILC_MASK, 1, 1);
+	m_ImageListHotToolbar.Create(48, 48, ILC_COLOR24|ILC_MASK, 1, 1);
 	m_ImageListHotToolbar.Add(AfxGetApp()->LoadIcon(IDI_ICON1));
 	m_ImageListHotToolbar.Add(AfxGetApp()->LoadIcon(IDI_ICON3));
 	m_ImageListHotToolbar.Add(AfxGetApp()->LoadIcon(IDI_ICON5));
@@ -197,6 +198,7 @@ BOOL CWeighingManagerDlg::InitToolBar()
 	m_ToolBar.GetToolBarCtrl().SetButtonWidth(60, 200);//设置按钮的宽度
 	m_ToolBar.SetSizes(CSize(68, 68), CSize(48, 48));//设置按钮大小
 	m_ToolBar.EnableToolTips(TRUE);//激活提示信息
+
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_INDETERMINATE);
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_ENABLED);
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_HIDDEN);
@@ -225,15 +227,14 @@ BOOL CWeighingManagerDlg::InitToolBar()
 }
 LRESULT CWeighingManagerDlg::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	//return CDialog::DefWindowProc(message, wParam, lParam);
-	LRESULT lrst = CDialog::DefWindowProc(message, wParam, lParam);
+	//return CDialogEx::DefWindowProc(message, wParam, lParam);
+	LRESULT lrst = CDialogEx::DefWindowProc(message, wParam, lParam);
 	if (message == WM_NCPAINT || message == WM_MOVE || message == WM_NCACTIVATE || message == WM_PAINT/*||message == WM_NOTIFY*/)
 	{
 		CDC* pWinDC = GetWindowDC();
 		if (pWinDC)
 		{
 			m_drawApe.DrawDlg(pWinDC, m_BKColor);
-			//m_drawApe.DrawTitleBar(pWinDC, m_BKColor);
 			m_drawApe.DrawIcon(pWinDC, IDR_MAINFRAME, 2);
 
 			TCHAR szWndTitle[MAX_PATH];
@@ -251,20 +252,19 @@ LRESULT CWeighingManagerDlg::DefWindowProc(UINT message, WPARAM wParam, LPARAM l
 void CWeighingManagerDlg::OnNcPaint()
 {
 	// TODO: 在此处添加消息处理程序代码
-	// 不为绘图消息调用 CDialog::OnNcPaint()
+	// 不为绘图消息调用 CDialogEx::OnNcPaint()
 }
 
 
 HBRUSH CWeighingManagerDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
-	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 	// TODO:  在此更改 DC 的任何属性
 	if (nCtlColor == CTLCOLOR_DLG)
 	{
 		return (HBRUSH)m_BKBrush.GetSafeHandle();
 	}
 
-	
 	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
 	return hbr;
 }
@@ -273,4 +273,10 @@ void CWeighingManagerDlg::OnToolbarSet()
 {
 	CSysParametrSet dlg;
 	dlg.DoModal();
+}
+
+BOOL CWeighingManagerDlg::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	return CDialogEx::OnEraseBkgnd(pDC);
 }
