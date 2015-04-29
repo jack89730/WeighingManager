@@ -5,6 +5,10 @@
 extern "C"
 {
 #endif
+	enum{
+		ADOAPI_ERROR =-1,
+		ADOAPI_OK =0
+	};
 
 	LRESULT   WINAPI  InitDB(LPCSTR strConnect,int minConn = 1,int maxConn = 10);
 	LRESULT	  WINAPI  ExecuteSQL(LPCSTR lpszSQL);//执行sql语句 比如添加记录等
