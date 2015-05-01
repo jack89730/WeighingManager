@@ -1,9 +1,9 @@
+del /S /A:H *.suo
 del /S *.ncb
 del /S *.obj
 del /S *.pdb
 del /S *.pch
 del /S *.exp
-del /S /A:H *.suo
 del /S *.plg
 del /S *.dep
 del /S *.ilk
@@ -17,6 +17,7 @@ del /S *.lastbuildstate
 del /S *.user
 rd  /s/q ipch
 rd  /s/q debug
+rd  /s/q .\AdoApi\debug
 rd  /s/q .\controlpanelApi\debug
 rd  /s/q .\ledcontrlolApi\debug
 rd  /s/q .\poundscontrolApi\debug
