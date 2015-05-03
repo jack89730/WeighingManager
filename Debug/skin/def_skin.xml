@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<skins>
+  <!--BMP-->
+  <bmp id="1" name="sysbtn" src="sysbtn.bmp"/>
+
+  <bmp id="2" name="lefttitle" src="LeftTitle.bmp"/>
+  <bmp id="3" name="midtitle" src="MidTitle.bmp"/>
+  <bmp id="4" name="righttitle" src="RightTitle.bmp"/>
+
+
+  <bmp id="5" name="leftband" src="LeftBand.bmp"/>
+  <bmp id="6" name="rightband" src="RightBand.bmp"/>
+  <bmp id="7" name="bottomband" src="BottomBand.bmp"/>
+  <bmp id="8" name="background" src="BackGround.bmp"/>
+  <bmp id="9" name="button" src="button.bmp"/>
+  
+</skins>

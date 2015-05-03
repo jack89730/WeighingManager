@@ -18,11 +18,7 @@
 
 #include <afxwin.h>         // MFC 核心组件和标准组件
 #include <afxext.h>         // MFC 扩展
-
-
 #include <afxdisp.h>        // MFC 自动化类
-
-
 
 #ifndef _AFX_NO_OLE_SUPPORT
 #include <afxdtctl.h>           // MFC 对 Internet Explorer 4 公共控件的支持
@@ -36,10 +32,9 @@
 #include "SerialPort.h"
 #include "VzLPRClientSDK.h"
 #include "ADOInterface.h"
+#include "SkinEEApi.h"
+using namespace SkinEE;
 #define WM_USER_MSG	(WM_USER+200)
-
-
-
 
 
 #ifdef _UNICODE

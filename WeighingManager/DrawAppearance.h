@@ -47,8 +47,9 @@ private :
 	CRect m_rtCloseBtn;	
 	CRect m_rtHelpBtn;	//帮助按钮位置
 	CRect m_rtIcon;		//图标位置
-	
-		
+
+	COLORREF m_BKColor;
+	CBrush   m_BKBrush;	
 	COLORREF m_clrTitle;		//标题颜色 ：RGB(255,255,255)
 protected:
 	void LButtonUP(HWND hWnd, CPoint point);
@@ -85,6 +86,8 @@ public:
 	BOOL DrawBorder(CDC *pWinDC,COLORREF color,int nLefOffset=0,int nTopOffset=0,int nRitOffset=0,int nBtmOffset=0);
 	
 	BOOL InterceptMessage(UINT msg,HWND hWnd,CPoint point,UINT nIDClose=0,UINT nIDMax=0,UINT nIDRestore=0,UINT nIDMin=0);
+
+	BOOL InterceptMessage(UINT msg, HWND hWnd,WPARAM wParam, LPARAM lParam);
 	
 	BOOL DrawSystemBtn(CDC *pWinDC,UINT nIDClose=0,UINT nIDMax=0,UINT nIDRestore=0,UINT nIDMin=0);
 	
@@ -94,7 +97,6 @@ public:
 	void DrawDlg(CDC *pWinDC,UINT LeftBmp,UINT RightBmp,UINT ButtomBmp,UINT TitleBmp);
 	void DrawTitleBar(CDC *pWinDC,COLORREF color);
 	void DrawSystemBtn1(CDC *pWinDC,UINT nIDSysBtn);
-
 };
 
 #endif // !defined(AFX_DRAWAPPEARANCE_H__D181D9FE_00B4_42F3_9432_37A4027770DD__INCLUDED_)

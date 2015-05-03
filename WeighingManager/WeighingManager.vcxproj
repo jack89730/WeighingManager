@@ -54,12 +54,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../serialportApi;..\VzLPRClientSDK\inc;../AdoApi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\serialportApi;..\VzLPRClientSDK\inc;..\AdoApi;..\SkinEEDLL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>serialportApi.lib;VzLPRSDK.lib;AdoApi.lib</AdditionalDependencies>
+      <AdditionalDependencies>serialportApi.lib;VzLPRSDK.lib;AdoApi.lib;SkinEEDLL.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../DEBUG;..\VzLPRClientSDK\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
@@ -114,8 +114,11 @@
     <ClInclude Include="ControlPanel.h" />
     <ClInclude Include="CToolBarEx.h" />
     <ClInclude Include="DrawAppearance.h" />
+    <ClInclude Include="GDIDraw.h" />
+    <ClInclude Include="InteractViewer.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="LprControl.h" />
+    <ClInclude Include="OutputWin.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SysParametrSet.h" />
@@ -128,8 +131,11 @@
     <ClCompile Include="ControlPanel.cpp" />
     <ClCompile Include="CToolBarEx.cpp" />
     <ClCompile Include="DrawAppearance.cpp" />
+    <ClCompile Include="GDIDraw.cpp" />
+    <ClCompile Include="InteractViewer.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="LprControl.cpp" />
+    <ClCompile Include="OutputWin.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -149,6 +155,8 @@
     <Image Include="res\IDI_ICON3.ico" />
     <Image Include="res\IDI_ICON5.ico" />
     <Image Include="res\IDI_ICON7.ico" />
+    <Image Include="res\offline.bmp" />
+    <Image Include="res\online.bmp" />
     <Image Include="res\WeighingManager.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

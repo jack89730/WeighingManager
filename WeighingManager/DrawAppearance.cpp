@@ -12,6 +12,8 @@ static char THIS_FILE[]=__FILE__;
 
 CDrawAppearance ::CDrawAppearance ()
 {
+	m_BKColor = RGB(165, 201, 235);
+	m_BKBrush.CreateSolidBrush(m_BKColor);
 	m_clrTitle=RGB(255,255,255);
 	m_wdFontW = 0;
 	m_wdFontH = 0;
@@ -863,6 +865,31 @@ BOOL CDrawAppearance ::InterceptMessage(UINT msg, HWND hWnd, CPoint point, UINT 
 
 	m_wdSpace=0; //清0 否则影响下一次绘图
 
+	return bResult;
+}
+
+BOOL CDrawAppearance::InterceptMessage(UINT msg, HWND hWnd,WPARAM wParam, LPARAM lParam)
+{
+	BOOL bResult = FALSE;
+	m_bRedrawWnd = FALSE;
+
+	CPoint point = CPoint(LOWORD(lParam), HIWORD(lParam));
+
+	switch (msg)
+	{
+	case WM_NCLBUTTONDOWN:
+		//bResult = NcLButtonDown(hWnd, point, unIDClose, unIDMax, unIDRestore, unIDMin);
+		bResult = NcLButtonDown1(hWnd, point, 0, 0, 0, 0);
+		break;
+	case WM_NCLBUTTONUP:
+		bResult = NcLButtonUp(hWnd, point);
+		break;
+	default:
+		bResult = FALSE;
+		break;
+	}
+
+	m_wdSpace = 0; //清0 否则影响下一次绘图
 	return bResult;
 }
 

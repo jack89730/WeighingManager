@@ -54,6 +54,15 @@
     <ClInclude Include="LprControl.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="OutputWin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GDIDraw.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractViewer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WeighingManager.cpp">
@@ -86,6 +95,15 @@
     <ClCompile Include="LprControl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="OutputWin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GDIDraw.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractViewer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WeighingManager.rc">
@@ -111,6 +129,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\IDI_ICON7.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\offline.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\online.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

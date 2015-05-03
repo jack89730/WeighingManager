@@ -16,7 +16,6 @@ del /S *.log
 del /S *.lastbuildstate
 del /S *.user
 rd  /s/q ipch
-rd  /s/q debug
 rd  /s/q .\AdoApi\debug
 rd  /s/q .\controlpanelApi\debug
 rd  /s/q .\ledcontrlolApi\debug

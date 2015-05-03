@@ -9,7 +9,124 @@
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
+#define SAVE_LP2FILE	//定义该宏，输出测试所需的车牌识别结果
 #endif
+
+const int TIMER_RECORD_ID = 1001;
+const int TIMER_RECORD_VALUE = 10 * 60 * 1000; // 定时器10分钟
+
+enum
+{
+	DEV_STATUS_ONLINE,
+	DEV_STATUS_OFFLINE,
+};
+
+static void iImageListLoadIDB(int IDB_, CImageList *pImgList)
+{
+	CBitmap bitmap;
+	bitmap.LoadBitmap(IDB_);
+	pImgList->Add(&bitmap, RGB(0, 0, 0));
+}
+
+static const char *iGetResultTypeName(VZ_LPRC_RESULT_TYPE eResultType)
+{
+	static const char *pStrTypeName[VZ_LPRC_RESULT_TYPE_NUM]
+		= { "实时", "自动触发", "软件触发", "外部触发", "虚拟线圈", "多重触发" };
+
+	return(pStrTypeName[eResultType]);
+}
+
+static const char *iGetResultTypeNameByBits(unsigned uBits)
+{
+	const int LenStr = 256;
+	static char strTypes[LenStr];
+	strTypes[0] = 0;
+	if (uBits == 0)
+	{
+		strcat_s(strTypes, LenStr, iGetResultTypeName(VZ_LPRC_RESULT_REALTIME));
+	}
+	if (uBits & TRIGGER_TYPE_AUTO_BIT)
+	{
+		strcat_s(strTypes, LenStr, iGetResultTypeName(VZ_LPRC_RESULT_STABLE));
+	}
+	if (uBits & TRIGGER_TYPE_EXTERNAL_BIT)
+	{
+		strcat_s(strTypes, LenStr, iGetResultTypeName(VZ_LPRC_RESULT_IO_TRIGGER));
+		strcat_s(strTypes, LenStr, "|");
+	}
+	if (uBits & TRIGGER_TYPE_SOFTWARE_BIT)
+	{
+		strcat_s(strTypes, LenStr, iGetResultTypeName(VZ_LPRC_RESULT_FORCE_TRIGGER));
+		strcat_s(strTypes, LenStr, "|");
+	}
+	if (uBits & TRIGGER_TYPE_VLOOP_BIT)
+	{
+		strcat_s(strTypes, LenStr, iGetResultTypeName(VZ_LPRC_RESULT_VLOOP_TRIGGER));
+		strcat_s(strTypes, LenStr, "|");
+	}
+
+	return(strTypes);
+};
+
+static const char *iGetDirString(int nDir)
+{
+	if (nDir == 3)
+		return("向上");
+	if (nDir == 4)
+		return("向下");
+	return(" ");
+}
+
+void __stdcall OnCommonNotify(VzLPRClientHandle handle, void *pUserData,
+	VZ_LPRC_COMMON_NOTIFY eNotify, const char *pStrDetail)
+{
+	CWeighingManagerDlg *pInstance = (CWeighingManagerDlg *)pUserData;
+	pInstance->OnCommonNotify0(handle, eNotify, pStrDetail);
+}
+
+int __stdcall OnPlateInfo(VzLPRClientHandle handle, void *pUserData,
+	const TH_PlateResult *pResult, unsigned uNumPlates,
+	VZ_LPRC_RESULT_TYPE eResultType,
+	const VZ_LPRC_IMAGE_INFO *pImgFull,
+	const VZ_LPRC_IMAGE_INFO *pImgPlateClip)
+{
+	CWeighingManagerDlg *pInstance = (CWeighingManagerDlg *)pUserData;
+	pInstance->OnPlateInfo0(handle, pResult, uNumPlates, eResultType, pImgFull, pImgPlateClip);
+
+	return(0);
+}
+
+int __stdcall OnQueryPlateInfo(VzLPRClientHandle handle, void *pUserData,
+	const TH_PlateResult *pResult, unsigned uNumPlates,
+	VZ_LPRC_RESULT_TYPE eResultType,
+	const VZ_LPRC_IMAGE_INFO *pImgFull,
+	const VZ_LPRC_IMAGE_INFO *pImgPlateClip)
+{
+	int mm = 0;
+
+	return 0;
+}
+
+int __stdcall OnVideoFrame(VzLPRClientHandle handle, void *pUserData,
+	WORD wVideoID, const VzYUV420P *pFrame)
+{
+	CWeighingManagerDlg *pInstance = (CWeighingManagerDlg *)pUserData;
+	pInstance->OnVideoFrame0(handle, wVideoID, pFrame);
+
+	return(0);
+}
+
+//void __stdcall OnSerialRecvData(int nSerialHandle, const unsigned char *pRecvData, unsigned uRecvSize, void *pUserData)
+//{
+//	CWeighingManagerDlg *pInstance = (CWeighingManagerDlg *)pUserData;
+//	pInstance->OnSerialRecvData1(nSerialHandle, pRecvData, uRecvSize);
+//}
+
+void CALLBACK iOnViewerMouse(IV_EVENT eEvent, int x, int y, void *pUserData, int nId)
+{
+	CWeighingManagerDlg *pInstance = (CWeighingManagerDlg *)pUserData;
+	pInstance->OnViewerMouse0(eEvent, x, y, nId);
+}
 
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
@@ -44,29 +161,28 @@ END_MESSAGE_MAP()
 
 
 // CWeighingManagerDlg 对话框
-
-
-
 CWeighingManagerDlg::CWeighingManagerDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CWeighingManagerDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_BKColor = RGB(165, 201, 235);
-	m_BKBrush.CreateSolidBrush(RGB(160, 200, 235));
+	//m_BKColor = RGB(165, 201, 235);
+	//m_BKBrush.CreateSolidBrush(RGB(165, 201, 235));
 }
 
 void CWeighingManagerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_TREE1, m_treeDeviceList);
 }
 
 BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_WM_NCPAINT()
-	ON_WM_CTLCOLOR()
-	ON_WM_ERASEBKGND()
+	//ON_WM_NCPAINT()
+	//ON_WM_CTLCOLOR()
+	//ON_WM_ERASEBKGND()
+	ON_WM_TIMER()
 	ON_COMMAND(IDC_TOOLBAR_BUTTON4, OnToolbarSet)
 END_MESSAGE_MAP()
 
@@ -105,10 +221,99 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 	// TODO:  在此添加额外的初始化代码
 	theApp.serialPort1.InitPort(this);
 
-	InitImageList();
-	InitToolBar();
-
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+}
+
+void CWeighingManagerDlg::Init()
+{
+	// TODO: 在此添加额外的初始化代码
+#ifdef _DEBUG
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//	_CrtSetBreakAlloc(100);
+#endif
+
+	//初始化结果输出窗口
+	GetModuleFileName(NULL, m_strModuleDir, MAX_PATH);
+	*strrchr(m_strModuleDir, '\\') = 0;
+	strcpy_s(m_strModuleName, MAX_PATH, "VzLPRSDKDemoDlg");
+
+	VZLPRClient_SetCommonNotifyCallBack(OnCommonNotify, this);
+
+	int nIDCEditResult[MAX_OUTPUT_NUM] =
+	{
+		IDC_EDIT_RESULT_1_1, IDC_EDIT_RESULT_1_2,
+		IDC_EDIT_RESULT_2_1, IDC_EDIT_RESULT_2_2
+	};
+	for (int i = 0; i<MAX_OUTPUT_NUM; i++)
+	{
+		m_winOut[i].pEditResult = (CEdit *)GetDlgItem(nIDCEditResult[i]);
+		m_winOut[i].m_struInterV.SetID(i);
+		m_winOut[i].m_struInterV.SetInteractCallback(iOnViewerMouse, this);
+		m_winOut[i].m_struInterV.SetCallBackOnPaint(iOnIVPaint, this);
+	}
+
+	//为m_treeDeviceList建立图像列表
+	m_pImageList = new CImageList();
+	m_pImageList->Create(16, 16, ILC_COLOR32, 0, 2);
+	iImageListLoadIDB(IDB_BMP_ONLINE, m_pImageList);
+	iImageListLoadIDB(IDB_BMP_OFFLINE, m_pImageList);
+
+	char strIP[32] = { 0 };
+	{
+		//使用上一次的IP地址
+		char strINI[MAX_PATH];
+		sprintf_s(strINI, MAX_PATH, "%s/user.ini", m_strModuleDir);
+		GetPrivateProfileString(m_strModuleName, "LastIP", "", strIP, 32, strINI);
+	}
+	//SetDlgItemText(IDC_EDIT_IP, strIP);
+	//SetDlgItemText(IDC_EDIT_PORT, "80");
+	//SetDlgItemText(IDC_EDIT_USERNAME, "admin");
+	//SetDlgItemText(IDC_EDIT_PASSWORD, "admin");
+
+	//((CButton *)GetDlgItem(IDC_CHK_SAVE_STABLE))->SetCheck(BST_CHECKED);
+	m_bSaveJPG = true;
+
+	char strFilePath[MAX_PATH];
+
+	sprintf_s(strFilePath, MAX_PATH, "%s/%s",
+		m_strModuleDir, "Cap");
+
+	if (!PathIsDirectory(strFilePath))
+	{
+		CreateDirectory(strFilePath, NULL);
+	}
+
+	m_strCommNotify[0] = 0;
+
+	//m_dlgTriggerShow.Create(m_dlgTriggerShow.IDD, this);
+
+	//添加输出端口类型
+	/*CComboBox *pCmbOP = (CComboBox *)GetDlgItem(IDC_CMB_OUT_PORT_ID);
+	pCmbOP->AddString("开关量 1");
+	pCmbOP->AddString("开关量 2");
+	pCmbOP->AddString("5V TLL 1");
+	pCmbOP->AddString("5V TLL 2");*/
+
+	/*CComboBox *pCmbBaudRate = (CComboBox *)GetDlgItem(IDC_CMB_SERIAL_PORT);
+	pCmbBaudRate->AddString("Port1");
+	pCmbBaudRate->AddString("Port2");
+	pCmbBaudRate->SetCurSel(0);*/
+
+	SetTimer(1000, 300, NULL);
+
+	SetTimer(TIMER_RECORD_ID, TIMER_RECORD_VALUE, NULL);
+
+#ifdef SAVE_LP2FILE
+	time_t ttCurr;
+	time(&ttCurr);
+	tm tmCurr;
+	localtime_s(&tmCurr, &ttCurr);
+	sprintf_s(strFilePath, MAX_PATH, "%s/LP_%d%02d%02d_%2d%02d%02d.log",
+		m_strModuleDir, tmCurr.tm_year + 1900, tmCurr.tm_mon + 1, tmCurr.tm_mday,
+		tmCurr.tm_hour, tmCurr.tm_min, tmCurr.tm_sec);
+
+	fopen_s(&m_pFSaveLP, strFilePath, "w");
+#endif
 }
 
 void CWeighingManagerDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -225,49 +430,27 @@ BOOL CWeighingManagerDlg::InitToolBar()
 
 	return true;
 }
-LRESULT CWeighingManagerDlg::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
-{
-	//return CDialogEx::DefWindowProc(message, wParam, lParam);
-	LRESULT lrst = CDialogEx::DefWindowProc(message, wParam, lParam);
-	if (message == WM_NCPAINT || message == WM_MOVE || message == WM_NCACTIVATE || message == WM_PAINT/*||message == WM_NOTIFY*/)
-	{
-		CDC* pWinDC = GetWindowDC();
-		if (pWinDC)
-		{
-			m_drawApe.DrawDlg(pWinDC, m_BKColor);
-			m_drawApe.DrawIcon(pWinDC, IDR_MAINFRAME, 2);
 
-			TCHAR szWndTitle[MAX_PATH];
-			ZeroMemory(szWndTitle, sizeof(szWndTitle));
-			GetWindowText(szWndTitle, sizeof(TCHAR)*MAX_PATH);
-			m_drawApe.SetTitleColor(RGB(0, 0, 0));
-			m_drawApe.DrawTitle(pWinDC, szWndTitle, 20);
-			//m_drawApe.DrawSystemBtn1(pWinDC, IDB_NORMAL);
-		}
-		ReleaseDC(pWinDC);
-	}
-	return lrst;
-}
-
-void CWeighingManagerDlg::OnNcPaint()
-{
-	// TODO: 在此处添加消息处理程序代码
-	// 不为绘图消息调用 CDialogEx::OnNcPaint()
-}
+//LRESULT CWeighingManagerDlg::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//	LRESULT lrst = CDialogEx::DefWindowProc(message, wParam, lParam);
+//
+//	if (message == WM_NCPAINT || message == WM_MOVE || message == WM_NCACTIVATE || message == WM_PAINT/*||message == WM_NOTIFY*/)
+//	{
+//		OnNcPaint();
+//		return 0;
+//	}
+//	else if (message == WM_NCMOUSEMOVE || message == WM_NCLBUTTONDOWN || message == WM_NCLBUTTONUP)
+//	{
+//		m_drawApe.InterceptMessage(message, this->GetSafeHwnd(), wParam, lParam);
+//	}
+//
+//	return lrst;
+//}
 
 
-HBRUSH CWeighingManagerDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
-{
-	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
-	// TODO:  在此更改 DC 的任何属性
-	if (nCtlColor == CTLCOLOR_DLG)
-	{
-		return (HBRUSH)m_BKBrush.GetSafeHandle();
-	}
 
-	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
-	return hbr;
-}
+
 
 void CWeighingManagerDlg::OnToolbarSet()
 {
@@ -275,8 +458,343 @@ void CWeighingManagerDlg::OnToolbarSet()
 	dlg.DoModal();
 }
 
-BOOL CWeighingManagerDlg::OnEraseBkgnd(CDC* pDC)
+void CWeighingManagerDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	return CDialogEx::OnEraseBkgnd(pDC);
+	// TODO: Add your message handler code here and/or call default
+	if (nIDEvent == TIMER_RECORD_ID)
+	{
+		// 定时全部重新录像
+		iReRecordAllVideo();
+	}
+	else
+	{
+		//轮询所有设备的状态
+		for (unsigned i = 0; i<m_vDev.size(); i++)
+		{
+			BYTE cStatus = 0;
+			VzLPRClient_IsConnected(m_vDev[i]->hLPRClient, &cStatus);
+			if (cStatus == 1)
+			{
+				iChangeDlgImageItem(m_vDev[i]->hLPRClient, DEV_STATUS_ONLINE);
+			}
+			else
+			{
+				iChangeDlgImageItem(m_vDev[i]->hLPRClient, DEV_STATUS_OFFLINE);
+			}
+		}
+
+		//更新界面内容
+		for (unsigned i = 0; i<MAX_OUTPUT_NUM >> 1; i++)
+		{
+			m_winOut[i].ShowString();
+		}
+
+		if (m_nCDCleanCommNotify > 0)
+		{
+			m_nCDCleanCommNotify--;
+			if (m_nCDCleanCommNotify == 0)
+			{
+				m_strCommNotify[0] = 0;
+			}
+			SetDlgItemText(IDC_EDIT_NOTIFY, m_strCommNotify);
+		}
+
+		//iUpdateSerialRecvInfo();
+	}
+
+	CDialog::OnTimer(nIDEvent);
 }
+
+void CWeighingManagerDlg::iReRecordAllVideo()
+{
+	char szPath[MAX_PATH] = { 0 };
+
+	int nSize = m_vecRecordHandle.size();
+	for (int i = 0; i < nSize; i++)
+	{
+		VzLPRClientHandle hLPRClient = (VzLPRClientHandle)m_vecRecordHandle[i];
+		if (hLPRClient != NULL)
+		{
+			CString strDevice = iGetDeviceItemText(hLPRClient);
+			if (strDevice != "")
+			{
+				// 停止录像
+				VzLPRClient_StopSaveRealData(hLPRClient);
+
+				// 重新录像
+				iRecordVideo(hLPRClient, strDevice);
+			}
+		}
+	}
+}
+
+CString CWeighingManagerDlg::iGetDeviceItemText(VzLPRClientHandle hLPRClient)
+{
+	CString strDevice;
+
+	HTREEITEM hItem = m_treeDeviceList.GetRootItem();
+	VzLPRClientHandle hCurClient;
+
+	while (hItem != NULL)
+	{
+		hCurClient = m_treeDeviceList.GetItemData(hItem);
+		if (hCurClient == hLPRClient)
+		{
+			strDevice = m_treeDeviceList.GetItemText(hItem);
+			break;
+		}
+
+		hItem = m_treeDeviceList.GetNextItem(hItem, TVGN_NEXT);
+	}
+
+	return strDevice;
+}
+
+void CWeighingManagerDlg::iRecordVideo(VzLPRClientHandle hLPRClient, CString strDevice)
+{
+	COleDateTime dtNow = COleDateTime::GetCurrentTime();
+
+	char strFilePath[MAX_PATH] = { 0 };
+	sprintf_s(strFilePath, MAX_PATH, "%s\\Video", m_strModuleDir);
+
+	if (!PathIsDirectory(strFilePath))
+	{
+		CreateDirectory(strFilePath, NULL);
+	}
+
+	char szPath[MAX_PATH] = { 0 };
+	sprintf_s(szPath, sizeof(szPath), "%s\\%s_%d%02d%02d%02d%02d%02d.avi", strFilePath, strDevice.GetBuffer(0), dtNow.GetYear(), dtNow.GetMonth(), dtNow.GetDay(),
+		dtNow.GetHour(), dtNow.GetMinute(), dtNow.GetSecond());
+
+	VzLPRClient_SaveRealData(hLPRClient, szPath);
+}
+
+void CWeighingManagerDlg::iChangeDlgImageItem(VzLPRClientHandle handle, int imageID)
+{
+	HTREEITEM hRoot = m_treeDeviceList.GetRootItem();
+	while (hRoot)
+	{
+		if (handle == m_treeDeviceList.GetItemData(hRoot))
+		{
+			m_treeDeviceList.SetItemImage(hRoot, imageID, imageID);
+			return;
+		}
+		hRoot = m_treeDeviceList.GetNextItem(hRoot, TVGN_NEXT);
+	}
+}
+
+void CALLBACK CWeighingManagerDlg::iOnIVPaint(int nID, bool bActive, bool bInUse, void *pUserData)
+{
+	CWeighingManagerDlg *pInstance = (CWeighingManagerDlg *)pUserData;
+	pInstance->iOnIVPaint1(nID, bActive, bInUse);
+}
+
+void CWeighingManagerDlg::iOnIVPaint1(int nID, bool bActive, bool bInUse)
+{
+	m_winOut[nID].ShowString();
+
+	if (bInUse)
+	{
+		if (nID >= (MAX_OUTPUT_NUM >> 1))
+			m_winOut[nID].ShowFrame();
+	}
+}
+
+void CWeighingManagerDlg::OnPlateInfo0(VzLPRClientHandle handle,
+	const TH_PlateResult *pResult, unsigned uNumPlates,
+	VZ_LPRC_RESULT_TYPE eResultType,
+	const VZ_LPRC_IMAGE_INFO *pImgFull,
+	const VZ_LPRC_IMAGE_INFO *pImgPlateClip)
+{
+	if (handle == NULL || pResult == NULL || uNumPlates == 0)
+		return;
+
+	DeviceLPR *pDev = iGetLocalDev(handle);
+
+	char strMsg[MAX_LEN_STR] = { 0 };
+	for (unsigned i = 0; i<uNumPlates; i++)
+	{
+		char strTmp[MAX_LEN_STR];
+
+		sprintf_s(strTmp, MAX_LEN_STR, " [%s:%s （宽度=%d)] %s %d/%02d/%02d %02d:%02d:%02d",
+			iGetResultTypeNameByBits(pResult[i].uBitsTrigType), pResult[i].license,
+			pResult[i].rcLocation.right - pResult[i].rcLocation.left, iGetDirString(pResult[i].nDirection),
+			pResult[i].struBDTime.bdt_year, pResult[i].struBDTime.bdt_mon, pResult[i].struBDTime.bdt_mday,
+			pResult[i].struBDTime.bdt_hour, pResult[i].struBDTime.bdt_min, pResult[i].struBDTime.bdt_sec);
+		strcat_s(strMsg, MAX_LEN_STR, strTmp);
+	}
+
+	OutputWin *pOutWin = eResultType == VZ_LPRC_RESULT_REALTIME
+		? iGetOutputWinByIdx(pDev->GetWinIdx()) : iGetStableOutputWinByIdx(pDev->GetWinIdx());
+
+	if (pOutWin)
+	{
+		pOutWin->UpdateString(strMsg);
+		if (pImgFull)
+		{
+			pOutWin->SetFrame(pImgFull->pBuffer, pImgFull->uWidth, pImgFull->uHeight, pImgFull->uPitch);
+			unsigned uYOffset = 4;
+			for (unsigned i = 0; i<uNumPlates; i++)
+			{
+				pOutWin->AddPatch(pImgPlateClip[i].pBuffer, pImgPlateClip[i].uWidth,
+					pImgPlateClip[i].uHeight, pImgPlateClip[i].uPitch, 4, uYOffset);
+				uYOffset += pImgPlateClip[i].uHeight;
+			}
+		}
+	}
+
+	if (m_bSaveJPG)
+	{
+		iSaveJPEG(pImgFull, eResultType, pResult[0].license);
+	}
+
+	//保存触发类型的结果到文本（非实时）
+	if (m_pFSaveLP && eResultType != VZ_LPRC_RESULT_REALTIME)
+	{
+		if (uNumPlates > 0)
+		{
+			for (unsigned i = 0; i<uNumPlates; i++)
+			{
+				fprintf(m_pFSaveLP, "%s ", pResult[0].license);
+			}
+			fprintf(m_pFSaveLP, "\n");
+		}
+		fflush(m_pFSaveLP);
+	}
+}
+
+void CWeighingManagerDlg::OnVideoFrame0(VzLPRClientHandle handle, WORD wVideoID, const VzYUV420P *pFrame)
+{
+	OutputWin *pWinOut = iGetOutputWinByIdx(wVideoID);
+	if (pWinOut == NULL)
+		return;
+}
+
+void CWeighingManagerDlg::OnViewerMouse0(IV_EVENT eEvent, int x, int y, int nId)
+{
+	if (nId == 2 || nId == 3)
+		nId -= 2;
+
+	OutputWin &winOut = m_winOut[nId];
+	OutputWin &winOut2 = m_winOut[nId + 2];
+
+	if (eEvent == IV_EVENT_L_BTN_DOWN)
+	{
+		m_nIdxWinCurrSelected = nId;
+		winOut.m_struInterV.SetActive(true);
+		winOut2.m_struInterV.SetActive(true);
+		for (int i = 0; i<MAX_OUTPUT_NUM; i++)
+		{
+			if (i == nId || i == nId + 2)
+				continue;
+			m_winOut[i].m_struInterV.SetActive(false);
+		}
+	}
+}
+
+void CWeighingManagerDlg::OnCommonNotify0(VzLPRClientHandle handle,
+	VZ_LPRC_COMMON_NOTIFY eNotify, const char *pStrDetail)
+{
+	char strDetail[MAX_LEN_STR];
+
+	if (pStrDetail)
+		sprintf_s(strDetail, MAX_LEN_STR, "[0x%08x]Noitfy=%d: %s", handle, eNotify, pStrDetail);
+	else
+		sprintf_s(strDetail, MAX_LEN_STR, "[0x%08x]Noitfy=%d", handle, eNotify);
+
+	iSetCommonInfo(strDetail);
+}
+
+DeviceLPR *CWeighingManagerDlg::iGetLocalDev(VzLPRClientHandle hLPRClient)
+{
+	for (unsigned i = 0; i<m_vDev.size(); i++)
+	{
+		if (m_vDev[i]->hLPRClient == hLPRClient)
+			return(m_vDev[i]);
+	}
+
+	return(NULL);
+}
+
+OutputWin *CWeighingManagerDlg::iGetOutputWinByIdx(int nIdxWin)
+{
+	if (nIdxWin >= 0 && nIdxWin < (MAX_OUTPUT_NUM >> 1))
+		return(m_winOut + nIdxWin);
+
+	return(NULL);
+}
+
+OutputWin *CWeighingManagerDlg::iGetStableOutputWinByIdx(int nIdx)
+{
+	OutputWin *pWin = iGetOutputWinByIdx(nIdx);
+	if (pWin == NULL)
+		return(NULL);
+
+	return(pWin + (MAX_OUTPUT_NUM >> 1));
+}
+
+//找到一个合适的输出窗口：
+int CWeighingManagerDlg::iGetOutputWinIndex(VzLPRClientHandle hLPRClient)
+{
+	//如果未指定客户端句柄
+	if (hLPRClient == NULL)
+	{
+		//如果以选中某个窗口，则直接使用该窗口
+		if (m_nIdxWinCurrSelected >= 0)
+			return(m_nIdxWinCurrSelected);
+
+		//如果未选中任一窗口，则使用未被占用的一个空闲窗口
+		for (int i = 0; i<MAX_OUTPUT_NUM >> 1; i++)
+		{
+			if (m_winOut[i].GetClientHandle() == NULL)
+				return(i);
+		}
+	}
+	else	//如果以指定一个客户端句柄，则使用已和该客户端句柄关联的窗口
+	{
+		for (int i = 0; i<MAX_OUTPUT_NUM >> 1; i++)
+		{
+			if (m_winOut[i].GetClientHandle() == hLPRClient)
+				return(i);
+		}
+	}
+
+	return(-1);
+}
+
+void CWeighingManagerDlg::iSetCommonInfo(const char *pStrInfo)
+{
+	if (pStrInfo == NULL)
+		return;
+
+	m_nCDCleanCommNotify = 10;
+	strcpy_s(m_strCommNotify, MAX_LEN_STR, pStrInfo);
+}
+
+void CWeighingManagerDlg::iSaveJPEG(const VZ_LPRC_IMAGE_INFO *pImgInfo, VZ_LPRC_RESULT_TYPE eType, const char *pStrLicense)
+{
+	char strFilePath[MAX_PATH];
+
+	sprintf_s(strFilePath, MAX_PATH, "%s/%s/%s",
+		m_strModuleDir, "Cap", iGetResultTypeName(eType));
+
+	if (!PathIsDirectory(strFilePath))
+	{
+		CreateDirectory(strFilePath, NULL);
+	}
+
+	char strFileName[MAX_PATH];
+
+	CTime time = CTime::GetCurrentTime();
+	sprintf_s(strFileName, MAX_PATH, "%s/%02d%02d%02d_%d%02d%02d_%s.jpg",
+		strFilePath,
+		time.GetYear() % 100, time.GetMonth(), time.GetDay(),
+		time.GetHour(), time.GetMinute(), time.GetSecond(),
+		pStrLicense);
+
+	if (pImgInfo)
+	{
+		VzLPRClient_ImageSaveToJpeg(pImgInfo, strFileName, 80);
+	}
+}
+
