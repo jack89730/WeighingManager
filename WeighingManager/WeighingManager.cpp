@@ -71,6 +71,12 @@ BOOL CWeighingManagerApp::InitInstance()
 	// 例如修改为公司或组织名
 	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
 
+	/*int ret=InitDB("Data Source = (localdb)\Projects; Initial Catalog = weightdb; Integrated Security = True; MultipleActiveResultSets = False; Packet Size = 4096; Application Name = 'Microsoft SQL Server Data Tools, SQL Server Object Explorer'");
+	if (ret <= 0)
+	{
+		return FALSE;
+	}*/
+
 	SkinEE_Attach();
 	CLoginDlg logindlg;
 	INT_PTR nResponse=logindlg.DoModal();

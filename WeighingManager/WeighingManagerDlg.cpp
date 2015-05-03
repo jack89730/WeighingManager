@@ -183,6 +183,7 @@ BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	//ON_WM_CTLCOLOR()
 	//ON_WM_ERASEBKGND()
 	ON_WM_TIMER()
+	ON_MESSAGE(WM_APP + 1, OnMyMsgHandler)
 	ON_COMMAND(IDC_TOOLBAR_BUTTON4, OnToolbarSet)
 END_MESSAGE_MAP()
 
@@ -220,6 +221,7 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化代码
 	theApp.serialPort1.InitPort(this);
+	InitStatusBar();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -365,6 +367,58 @@ HCURSOR CWeighingManagerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CWeighingManagerDlg::InitStatusBar()
+{
+	m_imglistStatusBar.Create(16, 16, ILC_COLOR24 | ILC_MASK, 5, 0);
+	m_imglistStatusBar.Add(AfxGetApp()->LoadIcon(IDI_ICON2));
+	m_imglistStatusBar.Add(AfxGetApp()->LoadIcon(IDI_ICON4));
+
+
+	promptInfo[0] = "";
+	promptInfo[1] = "控制板1串口";
+	promptInfo[2] = "控制板2串口";
+	promptInfo[3] = "摄像头1端口";
+	promptInfo[4] = "摄像头2端口";
+	promptInfo[5] = "LED屏幕串口";
+	promptInfo[6] = "地磅串口";
+	promptInfo[7] = "数据库状态";
+	promptInfo[8] = "";
+
+	m_statusbar.Create(WS_CHILD | WS_VISIBLE | SBT_OWNERDRAW, CRect(0, 0, 0, 0), this, 0);
+	int strPartDim[11] = { 0, 140, 240, 360, 480, 600, 720, 820, 920, 1020, -1 };
+	m_statusbar.SetParts(11, strPartDim);
+
+	m_statusbar.SetText(promptInfo[0], 0, 0);
+	m_statusbar.SetText(promptInfo[1], 1, 0);
+	m_statusbar.SetText(promptInfo[2], 2, 0);
+	m_statusbar.SetText(promptInfo[3], 3, 0);
+	m_statusbar.SetText(promptInfo[4], 4, 0);
+	m_statusbar.SetText(promptInfo[5], 5, 0);
+	m_statusbar.SetText(promptInfo[6], 6, 0);
+	m_statusbar.SetText(promptInfo[7], 7, 0);
+	m_statusbar.SetText(promptInfo[8], 8, 0);
+
+	m_statusbar.SetIcon(1, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(2, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(3, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(4, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(5, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(6, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(7, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(8, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(9, m_imglistStatusBar.ExtractIcon(1));
+	m_statusbar.SetIcon(10, m_imglistStatusBar.ExtractIcon(0));
+
+	
+	//要实现可拖动窗口的状态栏的跟随拖动，要在onsize中更新消息，如：	
+	RECT   winrect;
+	if (m_statusbar.GetSafeHwnd() == NULL)
+		return;
+	this->GetClientRect(&winrect); //取得客户区大小
+	m_statusbar.MoveWindow((winrect.left + 50), (winrect.bottom - 30),
+		(winrect.right - winrect.left - 100), 30, TRUE); //在适当的地方显示状态条 
+}
+
 void CWeighingManagerDlg::InitImageList()
 {
 	m_ImageListToolbar.Create(48, 48, ILC_COLOR24|ILC_MASK, 1, 1);
@@ -448,7 +502,11 @@ BOOL CWeighingManagerDlg::InitToolBar()
 //	return lrst;
 //}
 
-
+LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM w, LPARAM l)
+{
+	MessageBox("窗口不存在！","提示" ,MB_OKCANCEL);
+	return 1;
+}
 
 
 

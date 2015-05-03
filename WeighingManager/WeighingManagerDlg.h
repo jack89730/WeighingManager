@@ -73,6 +73,7 @@ public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnNcPaint();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg LRESULT OnMyMsgHandler(WPARAM, LPARAM);
 public:
 	void OnPlateInfo0(VzLPRClientHandle handle,
 		const TH_PlateResult *pResult, unsigned uNumPlates,
@@ -87,6 +88,7 @@ private:
 	void OnToolbarSet();
 	void InitImageList();
 	BOOL InitToolBar();
+	void InitStatusBar();
 	void iReRecordAllVideo();
 	CString iGetDeviceItemText(VzLPRClientHandle hLPRClient);
 	void iRecordVideo(VzLPRClientHandle hLPRClient, CString strDevice);
@@ -107,6 +109,9 @@ private:
 	CImageList      m_ImageListHotToolbar;//使工具栏图标显示256色
 	CImageList      m_ImageListToolbar;
 	CToolBarEx      m_ToolBar;
+	CStatusBarCtrl  m_statusbar;
+	CString          promptInfo[9];
+	CImageList       m_imglistStatusBar;
 	//CDrawAppearance m_drawApe;
 	//COLORREF        m_BKColor;
 	//CBrush          m_BKBrush;

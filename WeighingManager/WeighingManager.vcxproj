@@ -151,11 +151,13 @@
     <None Include="res\WeighingManager.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\error1.ico" />
     <Image Include="res\IDI_ICON1.ico" />
     <Image Include="res\IDI_ICON3.ico" />
     <Image Include="res\IDI_ICON5.ico" />
     <Image Include="res\IDI_ICON7.ico" />
     <Image Include="res\offline.bmp" />
+    <Image Include="res\ok1.ico" />
     <Image Include="res\online.bmp" />
     <Image Include="res\WeighingManager.ico" />
   </ItemGroup>

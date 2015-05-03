@@ -137,5 +137,11 @@
     <Image Include="res\online.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\error1.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\ok1.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
