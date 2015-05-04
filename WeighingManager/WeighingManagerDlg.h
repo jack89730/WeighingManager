@@ -68,7 +68,6 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	//afx_msg LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnNcPaint();
@@ -135,4 +134,9 @@ private:
 	FILE *m_pFSaveLP;
 public:
 	CTreeCtrl m_treeDeviceList;
+	CSerialPort serialPort1;
+	CSerialPort serialPort2;
+	CSerialPort serialPort3;
+	CSerialPort serialPort4;
+	CSerialPort serialPort5;
 };

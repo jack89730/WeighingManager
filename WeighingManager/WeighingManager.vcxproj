@@ -115,6 +115,7 @@
     <ClInclude Include="CToolBarEx.h" />
     <ClInclude Include="DrawAppearance.h" />
     <ClInclude Include="GDIDraw.h" />
+    <ClInclude Include="globalobject.h" />
     <ClInclude Include="InteractViewer.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="LprControl.h" />

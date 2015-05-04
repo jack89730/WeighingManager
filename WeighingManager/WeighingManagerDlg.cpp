@@ -21,6 +21,13 @@ enum
 	DEV_STATUS_OFFLINE,
 };
 
+enum
+{
+	IDM_REPORT = 10001,
+    IDM_SET,
+    IDM_LOGOUT
+};
+
 static void iImageListLoadIDB(int IDB_, CImageList *pImgList)
 {
 	CBitmap bitmap;
@@ -179,12 +186,10 @@ BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	//ON_WM_NCPAINT()
-	//ON_WM_CTLCOLOR()
-	//ON_WM_ERASEBKGND()
 	ON_WM_TIMER()
 	ON_MESSAGE(WM_APP + 1, OnMyMsgHandler)
-	ON_COMMAND(IDC_TOOLBAR_BUTTON4, OnToolbarSet)
+	ON_COMMAND(IDM_SET, OnToolbarSet)
+	ON_COMMAND(IDM_LOGOUT, OnOK)
 END_MESSAGE_MAP()
 
 
@@ -220,7 +225,7 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO:  在此添加额外的初始化代码
-	theApp.serialPort1.InitPort(this);
+	Init();
 	InitStatusBar();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -228,7 +233,9 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 
 void CWeighingManagerDlg::Init()
 {
-	// TODO: 在此添加额外的初始化代码
+	//初始化串口，在下面加逻辑
+	serialPort1.InitPort(CWnd::FromHandle(m_hWnd));
+
 #ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//	_CrtSetBreakAlloc(100);
@@ -382,7 +389,7 @@ void CWeighingManagerDlg::InitStatusBar()
 	promptInfo[5] = "LED屏幕串口";
 	promptInfo[6] = "地磅串口";
 	promptInfo[7] = "数据库状态";
-	promptInfo[8] = "";
+	promptInfo[8] = theApp.m_pGlobalObject->GetUsername();
 
 	m_statusbar.Create(WS_CHILD | WS_VISIBLE | SBT_OWNERDRAW, CRect(0, 0, 0, 0), this, 0);
 	int strPartDim[11] = { 0, 140, 240, 360, 480, 600, 720, 820, 920, 1020, -1 };
@@ -405,9 +412,9 @@ void CWeighingManagerDlg::InitStatusBar()
 	m_statusbar.SetIcon(5, m_imglistStatusBar.ExtractIcon(1));
 	m_statusbar.SetIcon(6, m_imglistStatusBar.ExtractIcon(1));
 	m_statusbar.SetIcon(7, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(8, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(9, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(10, m_imglistStatusBar.ExtractIcon(0));
+	//m_statusbar.SetIcon(8, m_imglistStatusBar.ExtractIcon(1));
+	//m_statusbar.SetIcon(9, m_imglistStatusBar.ExtractIcon(1));
+	//m_statusbar.SetIcon(10, m_imglistStatusBar.ExtractIcon(0));
 
 	
 	//要实现可拖动窗口的状态栏的跟随拖动，要在onsize中更新消息，如：	
@@ -485,27 +492,26 @@ BOOL CWeighingManagerDlg::InitToolBar()
 	return true;
 }
 
-//LRESULT CWeighingManagerDlg::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
-//{
-//	LRESULT lrst = CDialogEx::DefWindowProc(message, wParam, lParam);
-//
-//	if (message == WM_NCPAINT || message == WM_MOVE || message == WM_NCACTIVATE || message == WM_PAINT/*||message == WM_NOTIFY*/)
-//	{
-//		OnNcPaint();
-//		return 0;
-//	}
-//	else if (message == WM_NCMOUSEMOVE || message == WM_NCLBUTTONDOWN || message == WM_NCLBUTTONUP)
-//	{
-//		m_drawApe.InterceptMessage(message, this->GetSafeHwnd(), wParam, lParam);
-//	}
-//
-//	return lrst;
-//}
-
-LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM w, LPARAM l)
+LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM wparam, LPARAM lParam)
 {
-	MessageBox("窗口不存在！","提示" ,MB_OKCANCEL);
-	return 1;
+	CPoint pt;
+	CMenu menu;
+
+	menu.CreatePopupMenu();
+	menu.AppendMenu(MF_STRING, IDM_REPORT, "报表");
+	menu.AppendMenu(MF_SEPARATOR);
+	menu.AppendMenu(MF_STRING, IDM_SET, "设置");
+	menu.AppendMenu(MF_SEPARATOR);
+	menu.AppendMenu(MF_STRING, IDM_LOGOUT, "退出");
+
+	pt.x = (int)(short)LOWORD(lParam);
+	pt.y = (int)(short)HIWORD(lParam);
+
+	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_HORPOSANIMATION
+		, pt.x, pt.y, CWnd::FromHandle(m_hWnd));
+
+	menu.DestroyMenu();
+	return 0;
 }
 
 

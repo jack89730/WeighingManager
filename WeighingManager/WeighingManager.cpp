@@ -71,6 +71,8 @@ BOOL CWeighingManagerApp::InitInstance()
 	// 例如修改为公司或组织名
 	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
 
+	m_pGlobalObject = CGlobalObject::GetInstance();
+	//初始化数据库
 	/*int ret=InitDB("Data Source = (localdb)\Projects; Initial Catalog = weightdb; Integrated Security = True; MultipleActiveResultSets = False; Packet Size = 4096; Application Name = 'Microsoft SQL Server Data Tools, SQL Server Object Explorer'");
 	if (ret <= 0)
 	{
@@ -78,6 +80,7 @@ BOOL CWeighingManagerApp::InitInstance()
 	}*/
 
 	SkinEE_Attach();
+
 	CLoginDlg logindlg;
 	INT_PTR nResponse=logindlg.DoModal();
 	if (nResponse == IDOK)
@@ -107,6 +110,7 @@ BOOL CWeighingManagerApp::InitInstance()
 
 	// 由于对话框已关闭，所以将返回 FALSE 以便退出应用程序，
 	//  而不是启动应用程序的消息泵。
+
 	SkinEE_Detach();
 	return FALSE;
 }

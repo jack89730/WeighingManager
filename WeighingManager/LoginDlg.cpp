@@ -57,5 +57,6 @@ void CLoginDlg::OnBnClickedOk()
 		return;
 	}
 
+	theApp.m_pGlobalObject->SetUsername(m_userName);
 	CDialogEx::OnOK();
 }

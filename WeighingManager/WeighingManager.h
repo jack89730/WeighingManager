@@ -9,7 +9,7 @@
 #endif
 
 #include "resource.h"		// 主符号
-
+#include "globalobject.h"
 
 // CWeighingManagerApp: 
 // 有关此类的实现，请参阅 WeighingManager.cpp
@@ -28,8 +28,7 @@ public:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CSerialPort serialPort1;
-
+	CGlobalObject *m_pGlobalObject;
 };
 
 extern CWeighingManagerApp theApp;
