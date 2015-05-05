@@ -44,8 +44,9 @@ BOOL CToolBarEx::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			CString m_TipText;
 			GetButtonText(nIndex, m_TipText);     //获取工具栏文本
-			pTTT->lpszText = m_TipText.GetBuffer(m_TipText.GetLength()); //设置提示信息文本
-			pTTT->hinst = AfxGetResourceHandle();
+			int x = m_TipText.GetLength();
+			pTTT->lpszText = const_cast<LPSTR>(m_TipText.GetString()); //设置提示信息文本
+			pTTT->hinst = AfxGetResourceHandle();		
 			return TRUE;
 		}
 	}
