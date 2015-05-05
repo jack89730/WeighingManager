@@ -20,11 +20,10 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-	//CMyTab	m_TabParamter;
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 	CTabCtrl m_TabParamter;
 	CControlPanel m_pControlPanel;
-	CLprControl   m_pLprControl;
+	CLprControl m_pLprControl;
 };

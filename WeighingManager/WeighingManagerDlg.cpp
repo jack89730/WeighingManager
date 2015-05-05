@@ -228,6 +228,10 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 	Init();
 	InitStatusBar();
 
+	InitImageList();
+	InitToolBar();
+
+	SetTimer(1, 1000, NULL);
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -391,38 +395,40 @@ void CWeighingManagerDlg::InitStatusBar()
 	promptInfo[7] = "数据库状态";
 	promptInfo[8] = theApp.m_pGlobalObject->GetUsername();
 
-	m_statusbar.Create(WS_CHILD | WS_VISIBLE | SBT_OWNERDRAW, CRect(0, 0, 0, 0), this, 0);
-	int strPartDim[11] = { 0, 140, 240, 360, 480, 600, 720, 820, 920, 1020, -1 };
-	m_statusbar.SetParts(11, strPartDim);
+	m_StatusBar.Create(WS_CHILD | WS_VISIBLE | SBT_OWNERDRAW, CRect(0, 0, 0, 0), this, 0);
+	int strPartDim[11] = { 0, 100, 200, 300, 400, 500, 600, 700, 800, 1020, -1 };
+	m_StatusBar.SetParts(11, strPartDim);
 
-	m_statusbar.SetText(promptInfo[0], 0, 0);
-	m_statusbar.SetText(promptInfo[1], 1, 0);
-	m_statusbar.SetText(promptInfo[2], 2, 0);
-	m_statusbar.SetText(promptInfo[3], 3, 0);
-	m_statusbar.SetText(promptInfo[4], 4, 0);
-	m_statusbar.SetText(promptInfo[5], 5, 0);
-	m_statusbar.SetText(promptInfo[6], 6, 0);
-	m_statusbar.SetText(promptInfo[7], 7, 0);
-	m_statusbar.SetText(promptInfo[8], 8, 0);
+	m_StatusBar.SetText(promptInfo[0], 0, 0);
+	m_StatusBar.SetText(promptInfo[1], 1, 0);
+	m_StatusBar.SetText(promptInfo[2], 2, 0);
+	m_StatusBar.SetText(promptInfo[3], 3, 0);
+	m_StatusBar.SetText(promptInfo[4], 4, 0);
+	m_StatusBar.SetText(promptInfo[5], 5, 0);
+	m_StatusBar.SetText(promptInfo[6], 6, 0);
+	m_StatusBar.SetText(promptInfo[7], 7, 0);
+	m_StatusBar.SetText(promptInfo[8], 8, 0);
 
-	m_statusbar.SetIcon(1, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(2, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(3, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(4, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(5, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(6, m_imglistStatusBar.ExtractIcon(1));
-	m_statusbar.SetIcon(7, m_imglistStatusBar.ExtractIcon(1));
-	//m_statusbar.SetIcon(8, m_imglistStatusBar.ExtractIcon(1));
-	//m_statusbar.SetIcon(9, m_imglistStatusBar.ExtractIcon(1));
-	//m_statusbar.SetIcon(10, m_imglistStatusBar.ExtractIcon(0));
-
+	m_StatusBar.SetIcon(1, m_imglistStatusBar.ExtractIcon(1));
+	m_StatusBar.SetIcon(2, m_imglistStatusBar.ExtractIcon(1));
+	m_StatusBar.SetIcon(3, m_imglistStatusBar.ExtractIcon(1));
+	m_StatusBar.SetIcon(4, m_imglistStatusBar.ExtractIcon(1));
+	m_StatusBar.SetIcon(5, m_imglistStatusBar.ExtractIcon(1));
+	m_StatusBar.SetIcon(6, m_imglistStatusBar.ExtractIcon(1));
+	m_StatusBar.SetIcon(7, m_imglistStatusBar.ExtractIcon(1));
+	//m_StatusBar.SetIcon(8, m_imglistStatusBar.ExtractIcon(1));
+	//m_StatusBar.SetIcon(9, m_imglistStatusBar.ExtractIcon(1));
+	//m_StatusBar.SetIcon(10, m_imglistStatusBar.ExtractIcon(0));
 	
+	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
+	m_StatusBar.SetBkColor(RGB(180,180,180));   //状态栏背景色
+
 	//要实现可拖动窗口的状态栏的跟随拖动，要在onsize中更新消息，如：	
 	RECT   winrect;
-	if (m_statusbar.GetSafeHwnd() == NULL)
+	if (m_StatusBar.GetSafeHwnd() == NULL)
 		return;
 	this->GetClientRect(&winrect); //取得客户区大小
-	m_statusbar.MoveWindow((winrect.left + 50), (winrect.bottom - 30),
+	m_StatusBar.MoveWindow((winrect.left + 50), (winrect.bottom - 30),
 		(winrect.right - winrect.left - 100), 30, TRUE); //在适当的地方显示状态条 
 }
 
@@ -468,12 +474,12 @@ BOOL CWeighingManagerDlg::InitToolBar()
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_INDETERMINATE);
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_ENABLED);
 	//m_ToolBar.GetToolBarCtrl().SetState(IDC_TOOLBAR_BUTTON2, TBSTATE_HIDDEN);
-	
-	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0, CWnd::reposDefault, NULL, NULL, true);
+	//RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);  //显示工具栏
 
+	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0, CWnd::reposDefault, NULL, NULL, true);
 	m_ToolBar.GetToolBarCtrl().SetWindowPos(&CWnd::wndBottom, 10, 10, 100, 0,
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-
+	m_ToolBar.ModifyStyle(0, TBSTYLE_TRANSPARENT | TBSTYLE_FLAT | TBSTYLE_WRAPABLE );//设置工具栏背景色透明    ---  (根据要求，可以自形选择)
 
 	//第二种方法加载位图
 	{
@@ -513,8 +519,6 @@ LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM wparam, LPARAM lParam)
 	menu.DestroyMenu();
 	return 0;
 }
-
-
 
 void CWeighingManagerDlg::OnToolbarSet()
 {
@@ -565,6 +569,15 @@ void CWeighingManagerDlg::OnTimer(UINT_PTR nIDEvent)
 
 		//iUpdateSerialRecvInfo();
 	}
+
+	if (nIDEvent == 1)
+	{
+		CTime time;
+		time = CTime::GetCurrentTime();
+		m_StatusBar.SetText(time.Format("%Y") + ("年") + time.Format("%m") + ("月") + time.Format("%d") + ("日 ") + (" ") + time.Format("%H:%M:%S"), 9, 0);
+	}
+
+	CDialog::OnTimer(nIDEvent);
 
 	CDialog::OnTimer(nIDEvent);
 }

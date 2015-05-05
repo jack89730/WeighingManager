@@ -2,7 +2,8 @@
 #include "CToolBarEx.h"
 
 BEGIN_MESSAGE_MAP(CToolBarEx, CToolBar)
-	ON_WM_ERASEBKGND()
+	//ON_WM_ERASEBKGND()
+	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -32,3 +33,21 @@ BOOL CToolBarEx::OnEraseBkgnd(CDC* pDC)
 	return 1;
 }
 
+BOOL CToolBarEx::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
+{
+	TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
+	UINT nID = pNMHDR->idFrom; //获取工具栏按钮ID
+	if (nID)
+	{
+		UINT nIndex = CommandToIndex(nID); //根据ID获取按钮索引
+		if (nIndex != -1)
+		{
+			CString m_TipText;
+			GetButtonText(nIndex, m_TipText);     //获取工具栏文本
+			pTTT->lpszText = m_TipText.GetBuffer(m_TipText.GetLength()); //设置提示信息文本
+			pTTT->hinst = AfxGetResourceHandle();
+			return TRUE;
+		}
+	}
+	return FALSE;
+}

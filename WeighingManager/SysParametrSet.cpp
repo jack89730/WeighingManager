@@ -74,15 +74,18 @@ void CSysParametrSet::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 				break;
 	}
 	case 2: {
-				
+				m_pLprControl.ShowWindow(SW_HIDE);
+				m_pControlPanel.ShowWindow(SW_SHOW);
 				break;
 	}
 	case 3: {
-				
+				m_pLprControl.ShowWindow(SW_SHOW);
+				m_pControlPanel.ShowWindow(SW_HIDE);
 				break;
 	}
 	case 4: {
-			
+				m_pLprControl.ShowWindow(SW_HIDE);
+				m_pControlPanel.ShowWindow(SW_SHOW);
 				break;
 	}
 	}

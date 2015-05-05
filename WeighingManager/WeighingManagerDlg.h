@@ -105,10 +105,10 @@ private:
 protected:
 	HICON m_hIcon;
 private:
-	CImageList      m_ImageListHotToolbar;//使工具栏图标显示256色
-	CImageList      m_ImageListToolbar;
-	CToolBarEx      m_ToolBar;
-	CStatusBarCtrl  m_statusbar;
+	CImageList       m_ImageListHotToolbar;//使工具栏图标显示256色
+	CImageList       m_ImageListToolbar;
+	CToolBarEx       m_ToolBar;
+	CStatusBarCtrl   m_StatusBar;
 	CString          promptInfo[9];
 	CImageList       m_imglistStatusBar;
 	//CDrawAppearance m_drawApe;
