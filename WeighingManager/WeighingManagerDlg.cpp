@@ -179,6 +179,10 @@ CWeighingManagerDlg::CWeighingManagerDlg(CWnd* pParent /*=NULL*/)
 void CWeighingManagerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_STATIC_SHOW_1_1, m_winOut[0].m_struInterV);
+	DDX_Control(pDX, IDC_STATIC_SHOW_1_2, m_winOut[1].m_struInterV);
+	DDX_Control(pDX, IDC_STATIC_SHOW_2_1, m_winOut[2].m_struInterV);
+	DDX_Control(pDX, IDC_STATIC_SHOW_2_2, m_winOut[3].m_struInterV);
 	DDX_Control(pDX, IDC_TREE1, m_treeDeviceList);
 }
 
