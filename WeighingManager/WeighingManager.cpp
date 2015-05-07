@@ -73,11 +73,12 @@ BOOL CWeighingManagerApp::InitInstance()
 
 	m_pGlobalObject = CGlobalObject::GetInstance();
 	//初始化数据库
-	/*int ret=InitDB("Data Source = (localdb)\Projects; Initial Catalog = weightdb; Integrated Security = True; MultipleActiveResultSets = False; Packet Size = 4096; Application Name = 'Microsoft SQL Server Data Tools, SQL Server Object Explorer'");
+	int ret=InitDB("Provider=SQLOLEDB.1; Persist Security Info=False; Data Source = ZHANGYS-PC\\SQLEXPRESS; \
+					Initial Catalog = weightdb; User ID = sa; Password = sa123;");
 	if (ret <= 0)
 	{
 		return FALSE;
-	}*/
+	}
 
 	SkinEE_Attach();
 
