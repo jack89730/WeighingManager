@@ -26,7 +26,7 @@ public:
         if(p->GetCount()==0)
             return;
         CDC dc;
-        int nIndex;
+        //int nIndex;
         dc.Attach(lpDrawItemStruct->hDC);
         COLORREF bk=dc.GetBkColor();
         COLORREF fg=dc.GetTextColor();
@@ -73,7 +73,7 @@ public:
    static LRESULT CALLBACK ListBoxWndProc(HWND hWnd, UINT uMsg, WPARAM wParam,  LPARAM lParam)
    {
        CDrawListBox *pListBox=(CDrawListBox*)GetWindowLong(hWnd,GWL_USERDATA);
-       PAINTSTRUCT ps;
+      // PAINTSTRUCT ps;
        switch (uMsg)
        {  
        case WM_PAINT:

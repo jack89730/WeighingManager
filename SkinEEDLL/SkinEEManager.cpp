@@ -68,7 +68,7 @@ Image* CSkinManager::GetSkinItem(LPCTSTR lpszFileName)
 	return pImage;
 }
 
-Image* CSkinManager::GetResItem(int nRes)
+Image* CSkinManager::GetResItem(unsigned int nRes)
 {
 	if (nRes>m_mapImageItems.size()||nRes<1)
 		return NULL;

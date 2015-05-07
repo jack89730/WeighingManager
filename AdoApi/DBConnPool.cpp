@@ -47,12 +47,12 @@ int DBConnect::Open(LPCSTR strConnect)
 	catch (_com_error e)
 	{
 		MessageBox(NULL,e.Description(),_T("提示") ,1);
-		throw e;
+		//throw e;
 		//OutputDebugString(_T("数据库操作失败"));
 		/*char *szlog=NULL;
 		sprintf(szlog, "数据库操作失败! 错误信息:%s, 文件:%s, 行:%d./n", e.Description(), __FILE__, __LINE__);*/
 		//TRACE(_T("数据库操作失败! 错误信息:%s, 文件:%s, 行:%d./n"), err.ErrorMessage(), __FILE__, __LINE__);
-		//return -1;
+		return -1;
 	}
 	m_bDBOpen = TRUE;
 	return 0;

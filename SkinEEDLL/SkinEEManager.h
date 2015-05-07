@@ -12,7 +12,7 @@ public:
 	LPCTSTR              GetSkinPath();
 	void                 SetSkinPath(LPCTSTR lpszSkinPath);
 	Image*               GetSkinItem(LPCTSTR lpszFileName);
-	Image*               GetResItem(int nRes);
+	Image*               GetResItem(unsigned int nRes);
 	void                 LoadSkinFromDLL();
 	BOOL                 LoadUIResource(LPCSTR lpszXml);
 	

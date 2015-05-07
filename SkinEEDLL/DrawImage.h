@@ -197,7 +197,7 @@ public:
     void GetImageColor(int nResImage,Color* color)
     {
         Bitmap *pImage = (Bitmap*)CSkinManager::GetInstance()->GetResItem(nResImage);
-        ColorPalette Palette;
+        //ColorPalette Palette;
         pImage->GetPixel(5,5,color);
     }
 
@@ -231,7 +231,7 @@ public:
 
      void GetImageRect(CString strImage,CRect& rect)
      {
-         CBitmap bmpObj,*OldObj;
+         CBitmap bmpObj;
          BITMAPINFO bitinfo;
 
          rect.SetRect(0,0,0,0);

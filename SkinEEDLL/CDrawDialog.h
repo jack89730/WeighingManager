@@ -463,7 +463,7 @@ public:
     static LRESULT CALLBACK DialogWndProc(HWND hWnd, UINT uMsg, WPARAM wParam,  LPARAM lParam)
     {
         CDrawDialog *pDlg=(CDrawDialog*)GetWindowLong(hWnd,GWL_USERDATA);
-        PAINTSTRUCT ps;
+        //PAINTSTRUCT ps;
         switch (uMsg)
         {
         case WM_NCPAINT: 

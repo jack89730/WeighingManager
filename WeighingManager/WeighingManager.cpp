@@ -77,7 +77,7 @@ BOOL CWeighingManagerApp::InitInstance()
 					Initial Catalog = weightdb; User ID = sa; Password = sa123;");
 	if (ret <= 0)
 	{
-		return FALSE;
+		//return FALSE;
 	}
 
 	SkinEE_Attach();
