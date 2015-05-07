@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="import">
+      <UniqueIdentifier>{775f2ee1-2b7c-4648-824c-f81329056462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{e0a83a7b-2af2-409b-9d6e-ba4653790cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control">
+      <UniqueIdentifier>{f712c810-f7b6-4af6-a41d-81070fa0912c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HookProc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinEE.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinEEDLL.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinEEManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="until.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="import\tinyxml2.cpp">
+      <Filter>import</Filter>
+    </ClCompile>
+    <ClCompile Include="DUIButton.cpp">
+      <Filter>Control</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SkinEEDll.def">
+      <Filter>源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SkinEEManager.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawImage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="HookProc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ResDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinEEHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="until.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="import\tinyxml2.h">
+      <Filter>import</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SkinEE.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SkinEEApi.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CDrawButton.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="CDrawDialog.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="CDrawEdit.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="CDrawListBox.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="CDrawSlider.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="CDrawStatic.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="DUIButton.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

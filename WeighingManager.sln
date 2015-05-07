@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serialportApi", "serialport
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdoApi", "AdoApi\AdoApi.vcxproj", "{6614FB10-69F9-4E6B-B796-E50330149BF4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkinEEDLL", "SkinEEDLL\SkinEEDLL.vcxproj", "{FFB3A733-7131-457B-9965-EA753468605F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -55,6 +57,10 @@ Global
 		{6614FB10-69F9-4E6B-B796-E50330149BF4}.Debug|Win32.Build.0 = Debug|Win32
 		{6614FB10-69F9-4E6B-B796-E50330149BF4}.Release|Win32.ActiveCfg = Release|Win32
 		{6614FB10-69F9-4E6B-B796-E50330149BF4}.Release|Win32.Build.0 = Release|Win32
+		{FFB3A733-7131-457B-9965-EA753468605F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FFB3A733-7131-457B-9965-EA753468605F}.Debug|Win32.Build.0 = Debug|Win32
+		{FFB3A733-7131-457B-9965-EA753468605F}.Release|Win32.ActiveCfg = Release|Win32
+		{FFB3A733-7131-457B-9965-EA753468605F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,7 @@
+LIBRARY	"SkinEEDLL"
+
+EXPORTS
+    ; 此处可以是显式导出
+    SkinEE_Attach;
+    SkinEE_Detach;
+    SkinEE_AttachEx;
