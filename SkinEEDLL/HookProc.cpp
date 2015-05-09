@@ -59,7 +59,7 @@ LRESULT CHookProc::HOOKProc(int nCode, WPARAM wParam, LPARAM lParam)
 					GetClassName( hWnd, ClassName, MAX_PATH );
 
 					int type = GetControlType((CString)ClassName);
-					if (type==1||type==2||type==4||type==9||type==6)
+					if (type==1||type==2||/*type==4||*/type==9||type==6)
 					{
 						(*m_Instance->m_FuncMap[type])(hWnd);
 					}

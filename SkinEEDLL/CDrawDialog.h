@@ -30,6 +30,7 @@ public:
 	CRect     m_IniRect, m_MinRect, m_MaxRect, m_CloseRect, m_rtIcon; //标题栏按钮的显示区域
     CRect     m_LTitleRc, m_MTitleRc,m_RTitleRc;         //左标题,中间标题,右标题显示区域
     CRect     m_LBandRc, m_BBandRc,m_RBandRc;         //左边框,底边框,右边框区域
+	CRect     m_OldClientRect;
     BOOL      m_IsDrawForm;		//是否需要绘制窗体
     int       m_TitleDrawHeight;	//标题栏实际的绘制高度
     int       m_BorderWidth;		//边框宽度
@@ -168,10 +169,77 @@ public:
         return TRUE;
     }
 
-    void OnSize(HWND hWnd,UINT nType, LPARAM lParam) 
-    {
-        SetDlgZone(hWnd);
-    }
+	static BOOL CALLBACK EnumChildProc(HWND hwndChild, LPARAM lParam)
+	{
+		ASSERT(hwndChild);
+		CRect rtWnd;
+		CRect rtCtrl;   //获取控件变化前的大小  
+		float fsp[2];
+
+		LPRECT oldRtWnd = (LPRECT)lParam;
+		CWnd* pWnd = CWnd::FromHandle(GetParent(hwndChild));
+		//int idChild = GetWindowLong(hwndChild, GWL_ID);
+
+		::GetWindowRect(hwndChild, &rtCtrl);
+		pWnd->GetClientRect(&rtWnd);
+		pWnd->ScreenToClient(&rtCtrl);
+
+		fsp[0] = (float)rtWnd.right / oldRtWnd->right;
+		fsp[1] = (float)rtWnd.bottom / oldRtWnd->bottom;
+
+		rtCtrl.left = rtCtrl.left*fsp[0];
+		rtCtrl.right = rtCtrl.right*fsp[0];
+		rtCtrl.top = rtCtrl.top*fsp[1];
+		rtCtrl.bottom = rtCtrl.bottom*fsp[1];
+
+		::MoveWindow(hwndChild, rtCtrl.left, rtCtrl.top, rtCtrl.Width(), rtCtrl.Height(), TRUE);
+		return TRUE;
+	}
+
+	void OnSize(HWND hWnd, UINT nType, LPARAM lParam)
+	{
+		SetDlgZone(hWnd);
+		if (nType == SIZE_RESTORED || nType == SIZE_MAXIMIZED)
+		{
+			//方法一
+			EnumChildWindows(hWnd, (WNDENUMPROC)EnumChildProc, (LPARAM)&m_OldClientRect);
+			GetClientRect(hWnd, &m_OldClientRect);   //取客户区大小 
+			//方法二
+			//ReSize(hWnd);
+			InvalidateRect(hWnd,NULL,1);
+		}
+	}
+
+	void ReSize(HWND hWnd)
+	{
+		int idChild;
+		CRect rtCtrl;
+		CRect newRect;
+		float fsp[2];
+		CWnd* pCWnd;
+		pCWnd = CWnd::FromHandle(hWnd);
+
+		GetClientRect(hWnd,&newRect);     //取客户区大小    
+		fsp[0] = (float)newRect.right / m_OldClientRect.right;
+		fsp[1] = (float)newRect.bottom / m_OldClientRect.bottom;
+
+		HWND  hwndChild = ::GetWindow(hWnd, GW_CHILD);  //列出所有控件    
+		while (hwndChild)
+		{
+			idChild = ::GetDlgCtrlID(hwndChild);//取得ID  
+			GetWindowRect(GetDlgItem(hWnd, idChild), rtCtrl);
+			pCWnd->ScreenToClient(rtCtrl);
+
+			rtCtrl.left = rtCtrl.left*fsp[0];
+			rtCtrl.right = rtCtrl.right*fsp[0];
+			rtCtrl.top = rtCtrl.top*fsp[1];
+			rtCtrl.bottom = rtCtrl.bottom*fsp[1];
+
+			pCWnd->GetDlgItem(idChild)->MoveWindow(rtCtrl, TRUE);
+			hwndChild = ::GetWindow(hwndChild, GW_HWNDNEXT);
+		}
+		m_OldClientRect = newRect;
+	}
 
     void OnNCCalSize(HWND hWnd,WPARAM wParam, LPARAM lParam) 
     { 

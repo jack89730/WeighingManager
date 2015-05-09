@@ -50,6 +50,12 @@ public:
 			pEdit->OnErasebkgnd(hWnd, wParam, lParam);
 							  break;
 		}
+		case WM_PAINT:
+		{
+							  TRACE("Edit·¢ËÍWM_ERASEBKGND\n");
+							  pEdit->OnErasebkgnd(hWnd, wParam, lParam);
+							  break;
+		}
 
 		case WM_DESTROY:
 		{

@@ -236,6 +236,7 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 	InitToolBar();
 
 	SetTimer(1, 1000, NULL);
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -878,4 +879,3 @@ void CWeighingManagerDlg::iSaveJPEG(const VZ_LPRC_IMAGE_INFO *pImgInfo, VZ_LPRC_
 		VzLPRClient_ImageSaveToJpeg(pImgInfo, strFileName, 80);
 	}
 }
-
