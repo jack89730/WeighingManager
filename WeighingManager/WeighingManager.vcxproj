@@ -132,6 +132,7 @@ xcopy /e/c/i/y  ..\SkinEEDLL\skin  ..\$(Configuration)\skin</Command>
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WeighingManager.h" />
     <ClInclude Include="WeighingManagerDlg.h" />
+    <ClInclude Include="WeighingManagerImp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConfigFile.cpp" />
@@ -151,6 +152,7 @@ xcopy /e/c/i/y  ..\SkinEEDLL\skin  ..\$(Configuration)\skin</Command>
     <ClCompile Include="SysParametrSet.cpp" />
     <ClCompile Include="WeighingManager.cpp" />
     <ClCompile Include="WeighingManagerDlg.cpp" />
+    <ClCompile Include="WeighingManagerImp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WeighingManager.rc" />
