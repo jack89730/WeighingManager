@@ -10,8 +10,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WeighingManager", "Weighing
 		{9F0AA1DC-50E2-4994-95EE-7078224E9CC0} = {9F0AA1DC-50E2-4994-95EE-7078224E9CC0}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ledcontrlolApi", "ledcontrlolApi\ledcontrlolApi.vcxproj", "{960FD174-64D3-4809-AF6F-42D709FBC675}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "poundscontrolApi", "poundscontrolApi\poundscontrolApi.vcxproj", "{988DD1F0-5EC6-4E7C-A0EB-F1C5BD40A612}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "controlpanelApi", "controlpanelApi\controlpanelApi.vcxproj", "{D12550AC-4554-4821-915D-EF1F6425E432}"
@@ -24,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdoApi", "AdoApi\AdoApi.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkinEEDLL", "SkinEEDLL\SkinEEDLL.vcxproj", "{FFB3A733-7131-457B-9965-EA753468605F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ledcontrolApi", "ledcontrolApi\ledcontrolApi.vcxproj", "{960FD174-64D3-4809-AF6F-42D709FBC675}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -34,10 +34,6 @@ Global
 		{7159C809-7F2B-4504-8EF9-B0E133F8FDF9}.Debug|Win32.Build.0 = Debug|Win32
 		{7159C809-7F2B-4504-8EF9-B0E133F8FDF9}.Release|Win32.ActiveCfg = Release|Win32
 		{7159C809-7F2B-4504-8EF9-B0E133F8FDF9}.Release|Win32.Build.0 = Release|Win32
-		{960FD174-64D3-4809-AF6F-42D709FBC675}.Debug|Win32.ActiveCfg = Debug|Win32
-		{960FD174-64D3-4809-AF6F-42D709FBC675}.Debug|Win32.Build.0 = Debug|Win32
-		{960FD174-64D3-4809-AF6F-42D709FBC675}.Release|Win32.ActiveCfg = Release|Win32
-		{960FD174-64D3-4809-AF6F-42D709FBC675}.Release|Win32.Build.0 = Release|Win32
 		{988DD1F0-5EC6-4E7C-A0EB-F1C5BD40A612}.Debug|Win32.ActiveCfg = Debug|Win32
 		{988DD1F0-5EC6-4E7C-A0EB-F1C5BD40A612}.Debug|Win32.Build.0 = Debug|Win32
 		{988DD1F0-5EC6-4E7C-A0EB-F1C5BD40A612}.Release|Win32.ActiveCfg = Release|Win32
@@ -62,6 +58,10 @@ Global
 		{FFB3A733-7131-457B-9965-EA753468605F}.Debug|Win32.Build.0 = Debug|Win32
 		{FFB3A733-7131-457B-9965-EA753468605F}.Release|Win32.ActiveCfg = Release|Win32
 		{FFB3A733-7131-457B-9965-EA753468605F}.Release|Win32.Build.0 = Release|Win32
+		{960FD174-64D3-4809-AF6F-42D709FBC675}.Debug|Win32.ActiveCfg = Debug|Win32
+		{960FD174-64D3-4809-AF6F-42D709FBC675}.Debug|Win32.Build.0 = Debug|Win32
+		{960FD174-64D3-4809-AF6F-42D709FBC675}.Release|Win32.ActiveCfg = Release|Win32
+		{960FD174-64D3-4809-AF6F-42D709FBC675}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
