@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "WeighingManager.h"
 #include "WeighingManagerDlg.h"
+#include "WeighingManagerImp.h"
 #include "afxdialogex.h"
 #include "ProcessBar.h"
 
@@ -193,6 +194,7 @@ BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_TIMER()
 	ON_MESSAGE(WM_APP + 1, OnMyMsgHandler)
+	ON_COMMAND(IDC_TOOLBAR_BUTTON1, OnAutoStart)
 	ON_COMMAND(IDM_SET, OnToolbarSet)
 	ON_COMMAND(IDM_LOGOUT, OnOK)
 END_MESSAGE_MAP()
@@ -524,6 +526,12 @@ LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM wparam, LPARAM lParam)
 
 	menu.DestroyMenu();
 	return 0;
+}
+
+void CWeighingManagerDlg::OnAutoStart()
+{
+	CWeighingManagerImp cWMI;
+	cWMI.process_start();
 }
 
 void CWeighingManagerDlg::OnToolbarSet()

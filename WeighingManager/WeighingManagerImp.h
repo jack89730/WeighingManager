@@ -5,8 +5,8 @@
 class CWeighingManagerImp
 {
 public:
-	CWeighingManagerImp();
-	~CWeighingManagerImp();
+	CWeighingManagerImp(){}
+	~CWeighingManagerImp(){}
 
 public:
 	int process_start();

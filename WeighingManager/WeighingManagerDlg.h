@@ -84,6 +84,7 @@ public:
 	void OnCommonNotify0(VzLPRClientHandle handle,VZ_LPRC_COMMON_NOTIFY eNotify, const char *pStrDetail);
 	
 private:
+	void OnAutoStart();
 	void OnToolbarSet();
 	void InitImageList();
 	BOOL InitToolBar();
