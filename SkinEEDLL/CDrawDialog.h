@@ -202,10 +202,10 @@ public:
 		if (nType == SIZE_RESTORED || nType == SIZE_MAXIMIZED)
 		{
 			//方法一
-			EnumChildWindows(hWnd, (WNDENUMPROC)EnumChildProc, (LPARAM)&m_OldClientRect);
-			GetClientRect(hWnd, &m_OldClientRect);   //取客户区大小 
+			//EnumChildWindows(hWnd, (WNDENUMPROC)EnumChildProc, (LPARAM)&m_OldClientRect);
+			//GetClientRect(hWnd, &m_OldClientRect);   //取客户区大小 
 			//方法二
-			//ReSize(hWnd);
+			ReSize(hWnd);
 			InvalidateRect(hWnd,NULL,1);
 		}
 	}

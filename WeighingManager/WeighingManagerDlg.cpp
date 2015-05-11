@@ -6,6 +6,7 @@
 #include "WeighingManager.h"
 #include "WeighingManagerDlg.h"
 #include "afxdialogex.h"
+#include "ProcessBar.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -527,6 +528,8 @@ LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM wparam, LPARAM lParam)
 
 void CWeighingManagerDlg::OnToolbarSet()
 {
+	ProcessBar dlg1;
+	dlg1.DoModal();
 	CSysParametrSet dlg;
 	dlg.DoModal();
 }

@@ -125,6 +125,7 @@ xcopy /e/c/i/y  ..\SkinEEDLL\skin  ..\$(Configuration)\skin</Command>
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="LprControl.h" />
     <ClInclude Include="OutputWin.h" />
+    <ClInclude Include="ProcessBar.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SysParametrSet.h" />
@@ -142,6 +143,7 @@ xcopy /e/c/i/y  ..\SkinEEDLL\skin  ..\$(Configuration)\skin</Command>
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="LprControl.cpp" />
     <ClCompile Include="OutputWin.cpp" />
+    <ClCompile Include="ProcessBar.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
