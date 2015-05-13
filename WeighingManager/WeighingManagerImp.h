@@ -5,12 +5,17 @@
 class CWeighingManagerImp
 {
 public:
-	CWeighingManagerImp(){}
+	CWeighingManagerImp(){};
+	CWeighingManagerImp(CDialogEx *pView);
 	~CWeighingManagerImp(){}
 
 public:
 	int process_start();
+	void SetView(CDialogEx * pView);
+	int OnHandleXXX();
 
+protected:
+	CDialogEx * m_pView;
 };
 
 #endif
