@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "WeighingManager.h"
 #include "WeighingManagerDlg.h"
-#include "WeighingManagerImp.h"
 #include "afxdialogex.h"
 #include "ProcessBar.h"
 
@@ -245,9 +244,6 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 
 void CWeighingManagerDlg::Init()
 {
-	//初始化串口，在下面加逻辑
-	serialPort1.InitPort(CWnd::FromHandle(m_hWnd));
-
 #ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//	_CrtSetBreakAlloc(100);
@@ -319,6 +315,8 @@ void CWeighingManagerDlg::Init()
 	pCmbBaudRate->AddString("Port1");
 	pCmbBaudRate->AddString("Port2");
 	pCmbBaudRate->SetCurSel(0);*/
+
+	m_pWMI = new CWeighingManagerImp(this);
 
 	SetTimer(1000, 300, NULL);
 
@@ -530,8 +528,7 @@ LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM wparam, LPARAM lParam)
 
 void CWeighingManagerDlg::OnAutoStart()
 {
-	CWeighingManagerImp cWMI;
-	cWMI.process_start();
+	m_pWMI->process_start();
 }
 
 void CWeighingManagerDlg::OnToolbarSet()

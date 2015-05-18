@@ -5,6 +5,7 @@
 #pragma once
 #include "CToolBarEx.h"
 #include "SysParametrSet.h"
+#include "WeighingManagerImp.h"
 #include "OutputWin.h"
 #include <map>
 #include <vector>
@@ -133,11 +134,7 @@ private:
 	int m_nLastLEDLevel;
 	vector<int> m_vecRecordHandle;
 	FILE *m_pFSaveLP;
+	CWeighingManagerImp* m_pWMI;
 public:
 	CTreeCtrl m_treeDeviceList;
-	CSerialPort serialPort1;
-	CSerialPort serialPort2;
-	CSerialPort serialPort3;
-	CSerialPort serialPort4;
-	CSerialPort serialPort5;
 };
