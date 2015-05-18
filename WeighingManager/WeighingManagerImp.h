@@ -7,7 +7,7 @@
 class CWeighingManagerImp
 {
 public:
-	CWeighingManagerImp() :m_iSts(STS_INACTIVE){};
+	CWeighingManagerImp(){};
 	CWeighingManagerImp(CDialogEx *pView);
 	~CWeighingManagerImp(){}
 
@@ -18,12 +18,6 @@ public:
 
 protected:
 	CDialogEx * m_pView;
-	enum E_STS
-	{
-		STS_INACTIVE = 0,	// ÏÐÖÃ×´Ì¬
-		STS_ACTIVE = 1		// ¼à¿Ø×´Ì¬
-	};
-	int m_iSts;
 	enum E_PORT
 	{
 		PORT_CONTROLPANEL1 = 1,	// ¿ØÖÆ°å1

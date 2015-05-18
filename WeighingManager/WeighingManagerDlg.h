@@ -49,7 +49,6 @@ typedef struct
 }
 CarInfo;
 
-
 // CWeighingManagerDlg ¶Ô»°¿ò
 class CWeighingManagerDlg : public CDialogEx
 {
@@ -134,7 +133,8 @@ private:
 	int m_nLastLEDLevel;
 	vector<int> m_vecRecordHandle;
 	FILE *m_pFSaveLP;
-	CWeighingManagerImp* m_pWMI;
 public:
 	CTreeCtrl m_treeDeviceList;
+	static CWeighingManagerImp* m_pWMI;
+	static int m_iSts;
 };

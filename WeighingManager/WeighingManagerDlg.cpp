@@ -29,6 +29,14 @@ enum
     IDM_LOGOUT
 };
 
+enum E_STS
+{
+	STS_INACTIVE = 0,	// 闲置状态
+	STS_ACTIVE = 1		// 监控状态
+};
+
+HANDLE g_hEvent;
+
 static void iImageListLoadIDB(int IDB_, CImageList *pImgList)
 {
 	CBitmap bitmap;
@@ -136,6 +144,19 @@ void CALLBACK iOnViewerMouse(IV_EVENT eEvent, int x, int y, void *pUserData, int
 	pInstance->OnViewerMouse0(eEvent, x, y, nId);
 }
 
+UINT threadAutoStart(LPVOID lpParameter)
+{
+	while (CWeighingManagerDlg::m_iSts == STS_ACTIVE)
+	{
+		WaitForSingleObject(g_hEvent, INFINITE);
+
+		CWeighingManagerDlg::m_pWMI->process_start();
+		Sleep(5000);
+
+		SetEvent(g_hEvent);
+	}
+	return 0;
+}
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
@@ -169,6 +190,9 @@ END_MESSAGE_MAP()
 
 
 // CWeighingManagerDlg 对话框
+CWeighingManagerImp* CWeighingManagerDlg::m_pWMI = NULL;
+int CWeighingManagerDlg::m_iSts = STS_INACTIVE;
+
 CWeighingManagerDlg::CWeighingManagerDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CWeighingManagerDlg::IDD, pParent)
 {
@@ -528,7 +552,21 @@ LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM wparam, LPARAM lParam)
 
 void CWeighingManagerDlg::OnAutoStart()
 {
-	m_pWMI->process_start();
+	m_iSts = !m_iSts;	// 逻辑控制
+	if (m_iSts == STS_ACTIVE)
+	{
+		MessageBox(_T("开始自动运行"));
+		m_ToolBar.SetButtonText(0, _T("停止识别"));
+	}
+	else
+	{
+		MessageBox(_T("停止自动运行"));
+		m_ToolBar.SetButtonText(0, _T("自动识别"));
+	}
+
+	g_hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);	// 创建事件对象
+	SetEvent(g_hEvent);	// 设置对象为有信号状态
+	AfxBeginThread(threadAutoStart, this);
 }
 
 void CWeighingManagerDlg::OnToolbarSet()
