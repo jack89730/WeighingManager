@@ -144,20 +144,6 @@ void CALLBACK iOnViewerMouse(IV_EVENT eEvent, int x, int y, void *pUserData, int
 	pInstance->OnViewerMouse0(eEvent, x, y, nId);
 }
 
-UINT threadAutoStart(LPVOID lpParameter)
-{
-	while (CWeighingManagerDlg::m_iSts == STS_ACTIVE)
-	{
-		WaitForSingleObject(g_hEvent, INFINITE);
-
-		CWeighingManagerDlg::m_pWMI->process_start();
-		Sleep(5000);
-
-		SetEvent(g_hEvent);
-	}
-	return 0;
-}
-
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
 class CAboutDlg : public CDialogEx
@@ -190,7 +176,7 @@ END_MESSAGE_MAP()
 
 
 // CWeighingManagerDlg 对话框
-CWeighingManagerImp* CWeighingManagerDlg::m_pWMI = NULL;
+
 int CWeighingManagerDlg::m_iSts = STS_INACTIVE;
 
 CWeighingManagerDlg::CWeighingManagerDlg(CWnd* pParent /*=NULL*/)
@@ -339,8 +325,6 @@ void CWeighingManagerDlg::Init()
 	pCmbBaudRate->AddString("Port1");
 	pCmbBaudRate->AddString("Port2");
 	pCmbBaudRate->SetCurSel(0);*/
-
-	m_pWMI = new CWeighingManagerImp(this);
 
 	SetTimer(1000, 300, NULL);
 
@@ -557,16 +541,23 @@ void CWeighingManagerDlg::OnAutoStart()
 	{
 		MessageBox(_T("开始自动运行"));
 		m_ToolBar.SetButtonText(0, _T("停止识别"));
+
+		m_pWMI = new CWeighingManagerImp(this);
+		m_pWMI->process_start();
 	}
 	else
 	{
 		MessageBox(_T("停止自动运行"));
 		m_ToolBar.SetButtonText(0, _T("自动识别"));
+		m_pWMI->process_stop();
+		delete m_pWMI;
+		m_pWMI = NULL;
 	}
 
-	g_hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);	// 创建事件对象
-	SetEvent(g_hEvent);	// 设置对象为有信号状态
-	AfxBeginThread(threadAutoStart, this);
+	//g_hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);	// 创建事件对象
+	//SetEvent(g_hEvent);	// 设置对象为有信号状态
+	//AfxBeginThread(threadAutoStart, this);
+
 }
 
 void CWeighingManagerDlg::OnToolbarSet()

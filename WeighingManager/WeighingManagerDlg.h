@@ -135,6 +135,6 @@ private:
 	FILE *m_pFSaveLP;
 public:
 	CTreeCtrl m_treeDeviceList;
-	static CWeighingManagerImp* m_pWMI;
+	CWeighingManagerImp* m_pWMI;
 	static int m_iSts;
 };

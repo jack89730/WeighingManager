@@ -13,6 +13,7 @@ public:
 
 public:
 	int process_start();
+	int process_stop();
 	void SetView(CDialogEx * pView);
 	int OnHandleXXX();
 
