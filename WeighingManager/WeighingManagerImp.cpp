@@ -7,9 +7,14 @@ CWeighingManagerImp::CWeighingManagerImp(CDialogEx *pView)
 	//初始化串口，在下面加逻辑
 }
 
-int CWeighingManagerImp::Init(int iPort)
+int CWeighingManagerImp::Init(map<int, int>& mapSerialPort)
 {
-	m_mapSerialPort[PORT_CONTROLPANEL1].InitPort(CWnd::FromHandle(m_pView->m_hWnd), iPort);
+	map<int, int>::iterator it;
+	for ( it= mapSerialPort.begin(); it != mapSerialPort.end(); it++)
+	{
+		m_mapSerialPort[it->first].InitPort(CWnd::FromHandle(m_pView->m_hWnd), mapSerialPort[it->second]);
+	}
+
 	return 0;
 }
 

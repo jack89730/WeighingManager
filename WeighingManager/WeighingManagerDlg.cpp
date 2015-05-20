@@ -248,7 +248,11 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 	SetTimer(1, 1000, NULL);
 
 	m_pWMI.SetView(this);
-	m_pWMI.Init(4);
+	map<int, int> mapSerialPort;
+	mapSerialPort[1] = 3;
+	mapSerialPort[2] = 4;
+	mapSerialPort[3] = 5;
+	m_pWMI.Init(mapSerialPort);
 	
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
