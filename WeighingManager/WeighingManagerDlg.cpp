@@ -35,8 +35,6 @@ enum E_STS
 	STS_ACTIVE = 1		// 监控状态
 };
 
-HANDLE g_hEvent;
-
 static void iImageListLoadIDB(int IDB_, CImageList *pImgList)
 {
 	CBitmap bitmap;
@@ -248,6 +246,10 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 	InitToolBar();
 
 	SetTimer(1, 1000, NULL);
+
+	m_pWMI.SetView(this);
+	m_pWMI.Init(4);
+	
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -541,23 +543,14 @@ void CWeighingManagerDlg::OnAutoStart()
 	{
 		MessageBox(_T("开始自动运行"));
 		m_ToolBar.SetButtonText(0, _T("停止识别"));
-
-		m_pWMI = new CWeighingManagerImp(this);
-		m_pWMI->process_start();
+		m_pWMI.process_start();
 	}
 	else
 	{
 		MessageBox(_T("停止自动运行"));
 		m_ToolBar.SetButtonText(0, _T("自动识别"));
-		m_pWMI->process_stop();
-		delete m_pWMI;
-		m_pWMI = NULL;
+		m_pWMI.process_stop();
 	}
-
-	//g_hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);	// 创建事件对象
-	//SetEvent(g_hEvent);	// 设置对象为有信号状态
-	//AfxBeginThread(threadAutoStart, this);
-
 }
 
 void CWeighingManagerDlg::OnToolbarSet()

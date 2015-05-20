@@ -12,6 +12,7 @@ public:
 	~CWeighingManagerImp(){}
 
 public:
+	int Init(int iPort);
 	int process_start();
 	int process_stop();
 	void SetView(CDialogEx * pView);
