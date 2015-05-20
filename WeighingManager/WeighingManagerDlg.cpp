@@ -204,6 +204,7 @@ BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	ON_COMMAND(IDC_TOOLBAR_BUTTON1, OnAutoStart)
 	ON_COMMAND(IDM_SET, OnToolbarSet)
 	ON_COMMAND(IDM_LOGOUT, OnOK)
+	ON_MESSAGE(WM_COMM_RING_DETECTED, OnMyMsgHandler)
 END_MESSAGE_MAP()
 
 
@@ -249,9 +250,8 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 
 	m_pWMI.SetView(this);
 	map<int, int> mapSerialPort;
-	mapSerialPort[1] = 3;
-	mapSerialPort[2] = 4;
-	mapSerialPort[3] = 5;
+	mapSerialPort[3] = 1;
+	mapSerialPort[4] = 2;
 	m_pWMI.Init(mapSerialPort);
 	
 

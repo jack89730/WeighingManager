@@ -16,6 +16,7 @@ public:
 	int process_start();
 	int process_stop();
 	void SetView(CDialogEx * pView);
+	int  AddPort(int iPort);
 	int OnHandleXXX();
 
 protected:
@@ -27,12 +28,7 @@ protected:
 		PORT_POUNDSCONTROL = 3,	// µÿ∞ı
 		PORT_LEDCONTROL = 4		// LEDœ‘ æ∆¡
 	};
-	map<int, CSerialPort> m_mapSerialPort;
-	//CSerialPort serialPort1;
-	//CSerialPort serialPort2;
-	//CSerialPort serialPort3;
-	//CSerialPort serialPort4;
-	//CSerialPort serialPort5;
+	map<int,CSerialPort> m_mapSerialPort;
 };
 
 #endif
