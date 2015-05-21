@@ -73,6 +73,7 @@ public:
 	afx_msg void OnNcPaint();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg LRESULT OnMyMsgHandler(WPARAM, LPARAM);
+	afx_msg LRESULT OnMsgRingDetected(WPARAM, LPARAM);
 public:
 	void OnPlateInfo0(VzLPRClientHandle handle,
 		const TH_PlateResult *pResult, unsigned uNumPlates,

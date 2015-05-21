@@ -204,7 +204,7 @@ BEGIN_MESSAGE_MAP(CWeighingManagerDlg, CDialogEx)
 	ON_COMMAND(IDC_TOOLBAR_BUTTON1, OnAutoStart)
 	ON_COMMAND(IDM_SET, OnToolbarSet)
 	ON_COMMAND(IDM_LOGOUT, OnOK)
-	ON_MESSAGE(WM_COMM_RING_DETECTED, OnMyMsgHandler)
+	ON_MESSAGE(WM_COMM_RING_DETECTED, OnMsgRingDetected)
 END_MESSAGE_MAP()
 
 
@@ -249,10 +249,10 @@ BOOL CWeighingManagerDlg::OnInitDialog()
 	SetTimer(1, 1000, NULL);
 
 	m_pWMI.SetView(this);
-	map<int, int> mapSerialPort;
-	mapSerialPort[3] = 1;
-	mapSerialPort[4] = 2;
-	m_pWMI.Init(mapSerialPort);
+	map<int, int> mapPortType;
+	mapPortType[3] = PORT_CONTROLPANEL1;
+	mapPortType[4] = PORT_CONTROLPANEL2;
+	m_pWMI.Init(mapPortType);
 	
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -537,6 +537,12 @@ LRESULT CWeighingManagerDlg::OnMyMsgHandler(WPARAM wparam, LPARAM lParam)
 		, pt.x, pt.y, CWnd::FromHandle(m_hWnd));
 
 	menu.DestroyMenu();
+	return 0;
+}
+
+LRESULT CWeighingManagerDlg::OnMsgRingDetected(WPARAM wParam, LPARAM lParam)
+{
+	m_pWMI.ring_detected(wParam, lParam);
 	return 0;
 }
 
